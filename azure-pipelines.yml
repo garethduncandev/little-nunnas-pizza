@@ -27,7 +27,7 @@ stages:
             displayName: "Use .NET Core sdk"
             inputs:
               packageType: sdk
-              version: 7.x
+              version: 8.x
               installationPath: $(Agent.ToolsDirectory)/dotnet
 
           - script: dotnet publish --configuration "Release" /p:GenerateRuntimeConfigurationFiles=true /p:AssemblyVersion=$(Build.BuildNumber) --runtime linux-x64 --self-contained false
