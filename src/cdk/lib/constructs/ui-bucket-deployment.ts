@@ -38,7 +38,9 @@ export class UiBucketDeployment extends Construct {
 
     new BucketDeployment(this, id, {
       sources: [
-        Source.asset(path.join(__dirname, '../../../app/build')),
+        Source.asset(
+          path.join(__dirname, '../../../app/dist/little-nunnas-pizza/browser')
+        ),
         Source.jsonData(
           'appsettings.json',
           new AppSettings(
