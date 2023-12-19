@@ -42,7 +42,7 @@ export class UiBucketDeployment extends Construct {
           path.join(__dirname, '../../../app/dist/little-nunnas-pizza/browser')
         ),
         Source.jsonData(
-          'appsettings.json',
+          'assets/appsettings.json',
           new AppSettings(
             new Date(),
             props.applicationStackProps.domain,
