@@ -73,7 +73,7 @@ export class UiDistribution extends Construct {
         code: FunctionCode.fromInline(this.cloudFrontFunction),
         comment:
           'Add index.html to the end of the request uri if no extension exists',
-        functionName: `${id}-cf-viewer-request-function`,
+        functionName: `${id}-cf-viewer-request`,
       }
     );
 
