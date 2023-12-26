@@ -1,0 +1,10 @@
+# Ignore these, for now at least.
+*.js
+
+# Ignore auto-generated files
+web-api-client.ts
+
+# Ignore build folders
+.angular
+dist
+node_modules

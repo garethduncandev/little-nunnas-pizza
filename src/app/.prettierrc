@@ -1,0 +1,18 @@
+{
+  "singleQuote": true,
+  "plugins": ["prettier-plugin-organize-attributes"],
+  "attributeGroups": [
+    "$ANGULAR_STRUCTURAL_DIRECTIVE",
+    "$ANGULAR_ELEMENT_REF",
+    "$ANGULAR_ANIMATION",
+    "$ANGULAR_ANIMATION_INPUT",
+    "$ANGULAR_TWO_WAY_BINDING",
+    "$ANGULAR_INPUT",
+    "$ANGULAR_OUTPUT",
+    "$CODE_GUIDE"
+  ],
+  "attributeSort": "ASC",
+  "printWidth": 100,
+  "htmlWhitespaceSensitivity": "css",
+  "trailingComma": "es5"
+}
