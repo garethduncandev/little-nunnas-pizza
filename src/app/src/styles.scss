@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'Aldrich';
+  src: url('assets/fonts/Aldrich-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'CabinSketch';
+  src: url('assets/fonts/CabinSketch-Regular.ttf');
+}
