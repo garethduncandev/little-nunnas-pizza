@@ -3,11 +3,45 @@ module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
     extend: {
+      dropShadow: {
+        'black': '0.1rem 0.1rem 0.1rem black',
+        // Add more colored shadows as needed
+      },
+      textShadow: {
+        //'h1': '0 0 3px rgba(0, 0, 0, .8), 0 0 5px rgba(0, 0, 0, .9)',
+        'h1': '0.1rem 0.1rem 0.1rem black'
+     },
+      fontSize: {
+        '10xl': '10rem',
+        '11xl': '12rem',
+        '12xl': '14rem',
+        '13xl': '16rem',
+      },
       fontFamily: {
         'title': ['Aldrich','ui-sans-serif', 'system-ui'],
-        'intro': ['CabinSketch', 'ui-sans-serif', 'system-ui']
+        'intro': ['CabinSketch', 'ui-sans-serif', 'system-ui'],
+        'rust': ['Keep Singing', 'ui-sans-serif', 'system-ui']
+      },
+      borderWidth: {
+        '16': '1rem',
+        '6': '6px',
+        // Add as many custom border widths as you need
       },
       colors: {
+        'woodsmoke': {
+          DEFAULT:'#0c0b0f',
+          '50': '#f7f6f9',
+          '100': '#edecf2',
+          '200': '#d7d5e2',
+          '300': '#b4b0c9',
+          '400': '#8c86aa',
+          '500': '#6e6790',
+          '600': '#585277',
+          '700': '#494361',
+          '800': '#3e3a52',
+          '900': '#383446',
+          '950': '#0c0b0f',
+        },
         'green': {
           DEFAULT:'#0a9869',
           '50': '#edfcf5',
@@ -53,5 +87,5 @@ module.exports = {
       }
     },
   },
-  plugins: [],
+  plugins: [require('tailwindcss-textshadow')],
 };

@@ -4,10 +4,19 @@
 
 @font-face {
   font-family: 'Aldrich';
-  src: url('assets/fonts/Aldrich-Regular.ttf');
+  src: url('fonts/Aldrich-Regular.ttf');
 }
 
 @font-face {
   font-family: 'CabinSketch';
-  src: url('assets/fonts/CabinSketch-Regular.ttf');
+  src: url('fonts/CabinSketch-Regular.ttf');
+}
+
+@font-face {
+  font-family: 'Keep Singing';
+  src: url('fonts/keep-singing.regular.ttf');
+}
+
+@layer base {
+  /* ... */
 }
