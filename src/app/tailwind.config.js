@@ -3,6 +3,14 @@ module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
     extend: {
+
+
+      screens: {
+        'home-full': {
+          'raw': 'only screen and (min-height: calc(0.5 * 100vw))'
+        }
+      },
+
       dropShadow: {
         'black': '0.1rem 0.1rem 0.1rem black',
         // Add more colored shadows as needed
@@ -89,5 +97,5 @@ module.exports = {
       }
     },
   },
-  plugins: [require('tailwindcss-textshadow')],
+  plugins: [require('tailwindcss-textshadow'), require("tailwindcss-animate")],
 };
