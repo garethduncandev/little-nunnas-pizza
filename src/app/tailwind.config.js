@@ -20,9 +20,11 @@ module.exports = {
       fontFamily: {
         'title': ['Aldrich','ui-sans-serif', 'system-ui'],
         'intro': ['CabinSketch', 'ui-sans-serif', 'system-ui'],
-        'rust': ['Keep Singing', 'ui-sans-serif', 'system-ui']
+        'rust': ['Keep Singing', 'ui-sans-serif', 'system-ui'],
+        'teko': ['Teko Light', 'ui-sans-serif', 'system-ui']
       },
       borderWidth: {
+        '32': '2rem',
         '16': '1rem',
         '6': '6px',
         // Add as many custom border widths as you need
