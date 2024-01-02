@@ -31,9 +31,10 @@
   <div class="m-auto mt-10 grid max-w-screen-lg grid-cols-1 gap-10 p-8 md:grid-cols-2">
     <div>
       <img
-        [class.animate-fade-right]="image1IsInViewport"
+        [class.animate-stop]="!image1IsInViewport"
+        [inViewportOptions]="{ threshold: [0.5] }"
         (inViewportAction)="onIntersection($event, '1')"
-        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
+        class="animate-fade-right border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
         src="./../../../assets/photos/4.jpg"
         alt="logo"
         inViewport
@@ -41,9 +42,10 @@
     </div>
     <div>
       <img
-        [class.animate-fade-left]="image2IsInViewport"
+        [class.animate-stop]="!image2IsInViewport"
+        [inViewportOptions]="{ threshold: [0.5] }"
         (inViewportAction)="onIntersection($event, '2')"
-        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
+        class="animate-fade-left border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
         src="./../../../assets/photos/3.jpg"
         alt="logo"
         inViewport
@@ -52,9 +54,10 @@
 
     <div>
       <img
-        [class.animate-fade-right]="image3IsInViewport"
+        [class.animate-stop]="!image3IsInViewport"
+        [inViewportOptions]="{ threshold: [0.5] }"
         (inViewportAction)="onIntersection($event, '3')"
-        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
+        class="animate-fade-right border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
         src="./../../../assets/photos/5.jpg"
         alt="logo"
         inViewport
@@ -63,26 +66,22 @@
   </div>
 
   <p
-    [class.animate-fade-up]="text1IsInViewport"
+    [class.animate-stop]="!text1IsInViewport"
+    [inViewportOptions]="{ threshold: [0.5] }"
     (inViewportAction)="onIntersection($event, 'text')"
-    class="animate-duration-[1000ms] mt-16 text-center font-teko text-4xl text-gray md:text-6xl"
+    class="animate-fade-up animate-duration-[1000ms] mt-16 text-center font-teko text-4xl text-gray md:text-6xl"
     inViewport
   >
     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
     labore et dolore magna aliqua. Ut enim ad minim veniam...
   </p>
 
-  <div class="grid grid-cols-4 gap-4">
-    <div>01</div>
-    <!-- ... -->
-    <div>09</div>
-  </div>
-
   <div
     #contactUsForm
-    [class.animate-fade-left]="form1IsInViewport"
+    [class.animate-stop]="!form1IsInViewport"
+    [inViewportOptions]="{ threshold: [0.5] }"
     (inViewportAction)="onIntersection($event, 'form')"
-    class="animate-duration-[1000ms] mt-7 p-5 font-teko"
+    class="animate-fade-left animate-duration-[1000ms] mt-7 p-5 font-teko"
     inViewport
   >
     <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
