@@ -1,21 +1,25 @@
-<div
-  class="home-full:relative home-full:h-[calc(100svh)] border-32 border-solid border-woodsmoke bg-green"
->
-  <h1>
+<div class="grid h-[calc(100svh)] gap-0 bg-green portrait:grid-cols-1 landscape:grid-cols-3">
+  <div class="col-span-1 flex items-end justify-center">
+    <h1 class="portrait:w-full landscape:h-full">
+      <img
+        class="animate-delay-1000 p-5 duration-1000 animate-in fade-in-0 portrait:w-full landscape:h-full"
+        src="/assets/svg/logo.svg"
+        alt="Little Nunna's Pizza"
+      />
+    </h1>
+  </div>
+
+  <div class="col-span-2 flex items-start justify-center">
     <img
-      class="home-full:absolute h-1/2 w-full pb-20"
-      src="/assets/images/logo.svg"
+      class="top-0 p-5 duration-1000 animate-in slide-in-from-left-full portrait:w-full landscape:h-full"
+      src="/assets/svg/kart.svg"
       alt="Little Nunna's Pizza"
     />
-  </h1>
+  </div>
 
-  <img
-    class="home-full:absolute inset-x-0 bottom-0 mb-20 h-1/2 w-full p-5"
-    src="/assets/photos/kart.svg"
-    alt="Little Nunna's Pizza"
-  />
-
-  <div class="home-full:absolute inset-x-0 bottom-0 m-5 text-center">
+  <div
+    class="inset-x-0 bottom-0 col-span-3 m-5 text-center duration-1000 animate-in fade-in-10 home-full:absolute"
+  >
     <button
       (click)="scroll(contactUsForm)"
       class="bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
@@ -29,43 +33,56 @@
   <div class="m-auto mt-10 grid max-w-screen-lg grid-cols-1 gap-10 p-8 md:grid-cols-2">
     <div>
       <img
-        class="animate-in slide-in-from-left-full spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000"
-        src="./../../../assets/photos/2.jpg"
-        alt="logo"
-      />
-    </div>
-    <div>
-      <img
-        class="animate-in slide-in-from-right-full border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000"
+        [class.paused]="!image1IsInViewport"
+        (inViewportAction)="onIntersection($event, '1')"
+        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000 animate-in slide-in-from-right-full"
         src="./../../../assets/photos/4.jpg"
         alt="logo"
+        inViewport
       />
     </div>
     <div>
       <img
-        class="animate-in slide-in-from-left-full border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000"
+        [class.paused]="!image2IsInViewport"
+        (inViewportAction)="onIntersection($event, '2')"
+        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000 animate-in slide-in-from-left-full"
         src="./../../../assets/photos/3.jpg"
         alt="logo"
+        inViewport
       />
     </div>
 
     <div>
       <img
-        class="animate-in slide-in-from-right-full border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000"
+        [class.paused]="!image3IsInViewport"
+        (inViewportAction)="onIntersection($event, '3')"
+        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000 animate-in slide-in-from-right-full"
         src="./../../../assets/photos/5.jpg"
         alt="logo"
+        inViewport
       />
     </div>
   </div>
 
-  <div class="mt-16">
+  <div
+    [class.paused]="!text1IsInViewport"
+    (inViewportAction)="onIntersection($event, 'text')"
+    class="mt-16 duration-1000 animate-in fade-in-55 slide-in-from-bottom-full"
+    inViewport
+  >
     <p class="text-center font-teko text-4xl text-gray md:text-6xl">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
       labore et dolore magna aliqua. Ut enim ad minim veniam...
     </p>
   </div>
 
-  <div #contactUsForm class="mt-7 p-5 font-teko">
+  <div
+    #contactUsForm
+    [class.paused]="!form1IsInViewport"
+    (inViewportAction)="onIntersection($event, 'form')"
+    class="mt-7 p-5 font-teko duration-1000 animate-in fade-in-55 slide-in-from-left-full"
+    inViewport
+  >
     <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
     <p class="my-5 text-gray">Let us know when you would like us to cook for you</p>
     <form class="text-2xl">
