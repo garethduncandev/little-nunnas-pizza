@@ -2,7 +2,7 @@
   <div class="col-span-1 flex items-end justify-center">
     <h1 class="portrait:w-full landscape:h-full">
       <img
-        class="animate-delay-1000 p-5 duration-1000 animate-in fade-in-0 portrait:w-full landscape:h-full"
+        class="animate-fade animate-duration-[2000ms] animate-delay-500 p-5 portrait:w-full landscape:h-full"
         src="/assets/svg/logo.svg"
         alt="Little Nunna's Pizza"
       />
@@ -11,18 +11,16 @@
 
   <div class="col-span-2 flex items-start justify-center">
     <img
-      class="top-0 p-5 duration-1000 animate-in slide-in-from-left-full portrait:w-full landscape:h-full"
+      class="animate-fade-right animate-duration-[2000ms] top-0 p-5 portrait:w-full landscape:h-full"
       src="/assets/svg/kart.svg"
       alt="Little Nunna's Pizza"
     />
   </div>
 
-  <div
-    class="inset-x-0 bottom-0 col-span-3 m-5 text-center duration-1000 animate-in fade-in-10 home-full:absolute"
-  >
+  <div class="inset-x-0 bottom-0 col-span-3 m-5 text-center home-full:absolute">
     <button
       (click)="scroll(contactUsForm)"
-      class="bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
+      class="animate-fade-up animate-duration-1000 bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
     >
       Contact us
     </button>
@@ -33,9 +31,9 @@
   <div class="m-auto mt-10 grid max-w-screen-lg grid-cols-1 gap-10 p-8 md:grid-cols-2">
     <div>
       <img
-        [class.paused]="!image1IsInViewport"
+        [class.animate-fade-right]="image1IsInViewport"
         (inViewportAction)="onIntersection($event, '1')"
-        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000 animate-in slide-in-from-right-full"
+        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
         src="./../../../assets/photos/4.jpg"
         alt="logo"
         inViewport
@@ -43,9 +41,9 @@
     </div>
     <div>
       <img
-        [class.paused]="!image2IsInViewport"
+        [class.animate-fade-left]="image2IsInViewport"
         (inViewportAction)="onIntersection($event, '2')"
-        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000 animate-in slide-in-from-left-full"
+        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
         src="./../../../assets/photos/3.jpg"
         alt="logo"
         inViewport
@@ -54,9 +52,9 @@
 
     <div>
       <img
-        [class.paused]="!image3IsInViewport"
+        [class.animate-fade-right]="image3IsInViewport"
         (inViewportAction)="onIntersection($event, '3')"
-        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900 duration-1000 animate-in slide-in-from-right-full"
+        class="border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
         src="./../../../assets/photos/5.jpg"
         alt="logo"
         inViewport
@@ -64,50 +62,86 @@
     </div>
   </div>
 
-  <div
-    [class.paused]="!text1IsInViewport"
+  <p
+    [class.animate-fade-up]="text1IsInViewport"
     (inViewportAction)="onIntersection($event, 'text')"
-    class="mt-16 duration-1000 animate-in fade-in-55 slide-in-from-bottom-full"
+    class="animate-duration-[1000ms] mt-16 text-center font-teko text-4xl text-gray md:text-6xl"
     inViewport
   >
-    <p class="text-center font-teko text-4xl text-gray md:text-6xl">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua. Ut enim ad minim veniam...
-    </p>
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+    labore et dolore magna aliqua. Ut enim ad minim veniam...
+  </p>
+
+  <div class="grid grid-cols-4 gap-4">
+    <div>01</div>
+    <!-- ... -->
+    <div>09</div>
   </div>
 
   <div
     #contactUsForm
-    [class.paused]="!form1IsInViewport"
+    [class.animate-fade-left]="form1IsInViewport"
     (inViewportAction)="onIntersection($event, 'form')"
-    class="mt-7 p-5 font-teko duration-1000 animate-in fade-in-55 slide-in-from-left-full"
+    class="animate-duration-[1000ms] mt-7 p-5 font-teko"
     inViewport
   >
     <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
-    <p class="my-5 text-gray">Let us know when you would like us to cook for you</p>
+    <p class="my-5 text-2xl text-gray">Let us know when, where and roughly how many pizzas 🍕</p>
     <form class="text-2xl">
-      <div class="my-2">
-        <label class="block text-gray" for="name">Name</label>
-        <input class="block rounded-md px-5 py-2" id="name" name="name" type="text" />
-      </div>
-      <div class="my-2">
-        <label class="block text-gray" for="email">Email</label>
-        <input class="block rounded-md px-5 py-2" id="email" name="email" type="email" />
-      </div>
+      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <div class="my-2">
+          <label class="text-gray" for="name">Name</label>
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green"
+            id="name"
+            name="name"
+            type="text"
+          />
+        </div>
+        <div class="my-2">
+          <label class="text-gray" for="email">Email</label>
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="email"
+            name="email"
+            type="email"
+          />
+        </div>
 
-      <div class="my-2">
-        <label class="block text-gray" for="message">Message</label>
-        <textarea class="block rounded-md px-5 py-2" id="message" name="message"></textarea>
-      </div>
+        <div class="my-2">
+          <label class="text-gray" for="date">Date</label>
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="date"
+            type="date"
+          />
+        </div>
 
-      <div class="my-2">
-        <label class="block text-gray" for="date">Date</label>
-        <input class="block rounded-md px-5 py-2" id="date" type="date" />
-      </div>
+        <div class="my-2">
+          <label class="text-gray" for="date">Number of pizzas 🍕</label>
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="number-of-pizzas"
+            type="number"
+          />
+        </div>
 
-      <button class="block rounded-md border-r-4 border-none bg-green p-5 text-gray" type="submit">
-        Send
-      </button>
+        <div class="my-2 md:col-span-2">
+          <label class="text-gray" for="message">Message</label>
+          <textarea
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="message"
+            name="message"
+          ></textarea>
+        </div>
+
+        <button
+          class="rounded-md border-r-4 border-none bg-green p-5 text-gray md:col-span-2"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
     </form>
   </div>
 </div>

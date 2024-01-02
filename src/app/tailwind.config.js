@@ -7,7 +7,7 @@ module.exports = {
 
       screens: {
         'home-full': {
-          'raw': 'only screen and (min-height: calc(0.5 * 100vw))'
+          'raw': 'only screen and (min-height: calc(0.4 * 100vw))'
         }
       },
 
@@ -97,5 +97,5 @@ module.exports = {
       }
     },
   },
-  plugins: [require('tailwindcss-textshadow'), require("tailwindcss-animate")],
+  plugins: [require('tailwindcss-textshadow'), require("tailwindcss-animated")],
 };
