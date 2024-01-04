@@ -1,10 +1,13 @@
 import { Component } from '@angular/core';
 import { InViewportModule } from 'ng-in-viewport';
+import { ContactComponent } from '../../components/contact/contact.component';
+import { AboutComponent } from '../../components/about/about.component';
+import { GalleryComponent } from '../../components/gallery/gallery.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [InViewportModule],
+  imports: [InViewportModule, ContactComponent, AboutComponent, GalleryComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
@@ -17,10 +20,6 @@ export class HomeComponent {
 
   public scroll(el: HTMLElement): void {
     el.scrollIntoView({ behavior: 'smooth' });
-  }
-
-  public alert(): void {
-    alert('You are in viewport!');
   }
 
   public onIntersection({ visible }: { target: Element; visible: boolean }, image: string): void {

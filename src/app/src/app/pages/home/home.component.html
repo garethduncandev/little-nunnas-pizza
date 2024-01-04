@@ -2,7 +2,7 @@
   <div class="col-span-1 flex items-end justify-center">
     <h1 class="portrait:w-full landscape:h-full">
       <img
-        class="animate-fade animate-duration-[2000ms] animate-delay-500 p-5 portrait:w-full landscape:h-full"
+        class="animate-fade p-5 animate-delay-500 animate-duration-[2000ms] portrait:w-full landscape:h-full"
         src="/assets/svg/logo.svg"
         alt="Little Nunna's Pizza"
       />
@@ -11,7 +11,7 @@
 
   <div class="col-span-2 flex items-start justify-center">
     <img
-      class="animate-fade-right animate-duration-[2000ms] top-0 p-5 portrait:w-full landscape:h-full"
+      class="top-0 animate-fade-right p-5 animate-duration-[2000ms] portrait:w-full landscape:h-full"
       src="/assets/svg/kart.svg"
       alt="Little Nunna's Pizza"
     />
@@ -20,129 +20,15 @@
   <div class="inset-x-0 bottom-0 col-span-3 m-5 text-center home-full:absolute">
     <button
       (click)="scroll(contactUsForm)"
-      class="animate-fade-up animate-duration-1000 bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
+      class="animate-fade-up bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md animate-duration-1000"
     >
       Contact us
     </button>
   </div>
 </div>
 
-<div class="m-auto max-w-screen-lg p-5">
-  <div class="m-auto mt-10 grid max-w-screen-lg grid-cols-1 gap-10 p-8 md:grid-cols-2">
-    <div>
-      <img
-        [class.animate-stop]="!image1IsInViewport"
-        [inViewportOptions]="{ threshold: [0.5] }"
-        (inViewportAction)="onIntersection($event, '1')"
-        class="animate-fade-right border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
-        src="./../../../assets/photos/4.jpg"
-        alt="logo"
-        inViewport
-      />
-    </div>
-    <div>
-      <img
-        [class.animate-stop]="!image2IsInViewport"
-        [inViewportOptions]="{ threshold: [0.5] }"
-        (inViewportAction)="onIntersection($event, '2')"
-        class="animate-fade-left border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
-        src="./../../../assets/photos/3.jpg"
-        alt="logo"
-        inViewport
-      />
-    </div>
+<app-gallery></app-gallery>
 
-    <div>
-      <img
-        [class.animate-stop]="!image3IsInViewport"
-        [inViewportOptions]="{ threshold: [0.5] }"
-        (inViewportAction)="onIntersection($event, '3')"
-        class="animate-fade-right border-spacing-2 rounded-sm border-8 border-solid border-woodsmoke-900"
-        src="./../../../assets/photos/5.jpg"
-        alt="logo"
-        inViewport
-      />
-    </div>
-  </div>
+<app-about></app-about>
 
-  <p
-    [class.animate-stop]="!text1IsInViewport"
-    [inViewportOptions]="{ threshold: [0.5] }"
-    (inViewportAction)="onIntersection($event, 'text')"
-    class="animate-fade-up animate-duration-[1000ms] mt-16 text-center font-teko text-4xl text-gray md:text-6xl"
-    inViewport
-  >
-    Our unique mobile pizzeria brings the charm of a wood-fired oven to your event. We serve
-    artisanal pizzas, handcrafted with fresh ingredients, from our distinctive three-wheeled van.
-    Perfect for any gathering, our service promises a memorable culinary experience that goes beyond
-    just food.
-  </p>
-
-  <div
-    #contactUsForm
-    [class.animate-stop]="!form1IsInViewport"
-    [inViewportOptions]="{ threshold: [0.5] }"
-    (inViewportAction)="onIntersection($event, 'form')"
-    class="animate-fade-left animate-duration-[1000ms] mt-7 p-5 font-teko"
-    inViewport
-  >
-    <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
-    <p class="my-5 text-2xl text-gray">Let us know when, where and roughly how many pizzas 🍕</p>
-    <form class="text-2xl">
-      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-        <div class="my-2">
-          <label class="text-gray" for="name">Name</label>
-          <input
-            class="w-full rounded-md px-5 py-2 focus:border-green"
-            id="name"
-            name="name"
-            type="text"
-          />
-        </div>
-        <div class="my-2">
-          <label class="text-gray" for="email">Email</label>
-          <input
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
-            id="email"
-            name="email"
-            type="email"
-          />
-        </div>
-
-        <div class="my-2">
-          <label class="text-gray" for="date">Date</label>
-          <input
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
-            id="date"
-            type="date"
-          />
-        </div>
-
-        <div class="my-2">
-          <label class="text-gray" for="date">Number of pizzas 🍕</label>
-          <input
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
-            id="number-of-pizzas"
-            type="number"
-          />
-        </div>
-
-        <div class="my-2 md:col-span-2">
-          <label class="text-gray" for="message">Message</label>
-          <textarea
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
-            id="message"
-            name="message"
-          ></textarea>
-        </div>
-
-        <button
-          class="rounded-md border-r-4 border-none bg-green p-5 text-gray md:col-span-2"
-          type="submit"
-        >
-          Submit
-        </button>
-      </div>
-    </form>
-  </div>
-</div>
+<div #contactUsForm><app-contact></app-contact></div>

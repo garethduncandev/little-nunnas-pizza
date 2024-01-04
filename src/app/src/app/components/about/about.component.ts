@@ -2,12 +2,12 @@ import { Component } from '@angular/core';
 import { InViewportModule } from 'ng-in-viewport';
 
 @Component({
-  selector: 'app-contact',
+  selector: 'app-about',
   standalone: true,
   imports: [InViewportModule],
-  templateUrl: './contact.component.html',
-  styleUrl: './contact.component.scss',
+  templateUrl: './about.component.html',
+  styleUrl: './about.component.scss',
 })
-export class ContactComponent {
+export class AboutComponent {
   public isInViewport = false;
 }

@@ -1,26 +1,67 @@
-<!-- <div class="bg-gray p-5">
-  <h1 class="text-4xl" id="contactus">Give us a shout</h1>
-  <p class="my-5">Let us know when you would like us to cook for you</p>
-  <form>
-    <div class="my-2">
-      <label class="block" for="name">Name</label>
-      <input class="block rounded-md px-5 py-2" id="name" name="name" type="text" />
-    </div>
-    <div class="my-2">
-      <label class="block" for="email">Email</label>
-      <input class="block rounded-md px-5 py-2" id="email" name="email" type="email" />
-    </div>
+<div
+  #contactUsForm
+  [class.animate-stop]="!isInViewport"
+  [inViewportOptions]="{ threshold: [0.5] }"
+  (inViewportAction)="isInViewport = $event.visible"
+  class="animate-fade-left animate-duration-[1000ms] mt-7 p-5 font-teko"
+  inViewport
+>
+  <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
+  <p class="my-5 text-2xl text-gray">Let us know when, where and roughly how many pizzas 🍕</p>
+  <form class="text-2xl">
+    <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+      <div class="my-2">
+        <label class="text-gray" for="name">Name</label>
+        <input
+          class="w-full rounded-md px-5 py-2 focus:border-green"
+          id="name"
+          name="name"
+          type="text"
+        />
+      </div>
+      <div class="my-2">
+        <label class="text-gray" for="email">Email</label>
+        <input
+          class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+          id="email"
+          name="email"
+          type="email"
+        />
+      </div>
 
-    <div class="my-2">
-      <label class="block" for="message">Message</label>
-      <textarea class="block rounded-md px-5 py-2" id="message" name="message"></textarea>
-    </div>
+      <div class="my-2">
+        <label class="text-gray" for="date">Date</label>
+        <input
+          class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+          id="date"
+          type="date"
+        />
+      </div>
 
-    <div class="my-2">
-      <label class="block" for="date">Date</label>
-      <input class="block rounded-md px-5 py-2" id="date" type="date" />
-    </div>
+      <div class="my-2">
+        <label class="text-gray" for="date">Number of pizzas 🍕</label>
+        <input
+          class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+          id="number-of-pizzas"
+          type="number"
+        />
+      </div>
 
-    <button class="block rounded-md border-r-4 border-none bg-green p-5" type="submit">Send</button>
+      <div class="my-2 md:col-span-2">
+        <label class="text-gray" for="message">Message</label>
+        <textarea
+          class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+          id="message"
+          name="message"
+        ></textarea>
+      </div>
+
+      <button
+        class="rounded-md border-r-4 border-none bg-green p-5 text-gray md:col-span-2"
+        type="submit"
+      >
+        Submit
+      </button>
+    </div>
   </form>
-</div> -->
+</div>
