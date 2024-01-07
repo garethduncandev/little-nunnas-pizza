@@ -1,0 +1,86 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+name: 1.0.$(Rev:r)
+trigger:
+  - main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+  - group: LITTLENUNNASPIZZA_AWS_CDK
+  - name: npm_config_cache_app
+    value: $(Pipeline.Workspace)/app/.npm
+  - name: npm_config_cache_cdk
+    value: $(Pipeline.Workspace)/cdk/.npm
+
+stages:
+  - stage: Build
+    displayName: Build ui, api and cdk
+    jobs:
+      - job: Build
+        steps:
+          - task: UseDotNet@2
+            displayName: "Use .NET Core sdk"
+            inputs:
+              packageType: sdk
+              version: 8.x
+              installationPath: $(Agent.ToolsDirectory)/dotnet
+
+          - script: dotnet publish --configuration "Release" /p:GenerateRuntimeConfigurationFiles=true /p:AssemblyVersion=$(Build.BuildNumber) --runtime linux-x64 --self-contained false
+            displayName: "Build .net api"
+            workingDirectory: src/api/src/WebUI
+
+          - script: dotnet --version > ../app/src/versions/dotnet-version.txt
+            displayName: "Get .NET version"
+            workingDirectory: src/api
+
+          - task: NodeTool@0
+            inputs:
+              versionSpec: "20.x"
+            displayName: "Install NodeJS v20"
+          - task: Cache@2
+            inputs:
+              key: "src/app/package-lock.json"
+              path: $(npm_config_cache_app)
+            displayName: Cache UI NPM packages
+          - script: npm ci --cache $(npm_config_cache_app)
+            workingDirectory: src/app
+            displayName: "Install npm modules"
+
+          - script: npm run build
+            displayName: "Build UI"
+            workingDirectory: src/app
+
+          - task: Cache@2
+            inputs:
+              key: "src/cdk/package-lock.json"
+              path: $(npm_config_cache_cdk)
+            displayName: Cache CDK NPM packages
+          - script: npm ci --cache $(npm_config_cache_cdk)
+            displayName: install npm modules for cdk
+            workingDirectory: src/cdk
+
+          # set environment name to git commit id to be used in next script
+          - script: echo "##vso[task.setvariable variable=ENVIRONMENTNAME]PR-$(Build.SourceVersion.Substring(0, 5))"
+            displayName: set environment name
+
+          # echo environment name
+          - script: echo $(ENVIRONMENTNAME)
+            displayName: PR environment name
+
+          - script: npm run cdk synth -- --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
+            displayName: cdk synth
+            workingDirectory: src/cdk
+
+          - script: npm run cdk deploy -- --app 'cdk.out' nunnaspizza-$(ENVIRONMENTNAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
+            displayName: cdk deploy pr environment
+            workingDirectory: src/cdk
+            condition: |
+              contains(variables['Build.SourceVersionMessage'], '[env]')
+
+          - publish: $(System.DefaultWorkingDirectory)/src/cdk/cdk.out
+            artifact: build
