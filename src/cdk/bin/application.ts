@@ -5,12 +5,12 @@ import { ApplicationStack } from '../lib/application-stack';
 
 const app = new cdk.App();
 
-const environmentName = app.node.tryGetContext('ENVIRONMENT_NAME');
+const prEnvironmentName = app.node.tryGetContext('PR_ENVIRONMENT_NAME');
 
-if (environmentName) {
-  new ApplicationStack(app, `nunnaspizza-${environmentName}`, {
+if (prEnvironmentName) {
+  new ApplicationStack(app, `nunnaspizza-${prEnvironmentName}`, {
     domain: 'nunnas.pizza',
-    subDomain: environmentName,
+    subDomain: prEnvironmentName,
     robotsNoIndex: true,
     aspNetCoreEnvironment: 'Development',
   });
