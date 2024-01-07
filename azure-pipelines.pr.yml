@@ -34,7 +34,7 @@ stages:
           - script: echo "Will not create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: do not create environment
             condition: |
-              !contains(variables['Build.SourceVersionMessage'], '[env]')
+              not(contains(variables['Build.SourceVersionMessage'], '[env]'))
 
           - task: UseDotNet@2
             displayName: "Use .NET Core sdk"
