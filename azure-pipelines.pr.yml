@@ -5,7 +5,7 @@
 
 name: 1.0.$(Rev:r)
 trigger:
-  - main
+  - none
 
 pool:
   vmImage: ubuntu-latest
@@ -23,6 +23,15 @@ stages:
     jobs:
       - job: Build
         steps:
+        
+          # set environment name to git commit id to be used in next script
+          - script: echo "##vso[task.setvariable variable=ENVIRONMENTNAME]PR-$(Build.SourceVersion.Substring(0, 5))"
+            displayName: set environment name
+
+          # echo environment name
+          - script: echo $(ENVIRONMENTNAME)
+            displayName: PR environment name
+            
           - task: UseDotNet@2
             displayName: "Use .NET Core sdk"
             inputs:
@@ -63,14 +72,6 @@ stages:
           - script: npm ci --cache $(npm_config_cache_cdk)
             displayName: install npm modules for cdk
             workingDirectory: src/cdk
-
-          # set environment name to git commit id to be used in next script
-          - script: echo "##vso[task.setvariable variable=ENVIRONMENTNAME]PR-$(Build.SourceVersion.Substring(0, 5))"
-            displayName: set environment name
-
-          # echo environment name
-          - script: echo $(ENVIRONMENTNAME)
-            displayName: PR environment name
 
           - script: npm run cdk synth -- --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
             displayName: cdk synth
