@@ -15,7 +15,7 @@ stages:
       - job: Build
         steps:
           # set environment name to git commit id to be used in next script
-          - script: echo "##vso[task.setvariable variable=ENVIRONMENTNAME]$(Build.SourceVersion.Substring(0, 5))"
+          - script: echo "##vso[task.setvariable variable=ENVIRONMENTNAME]${BUILD_SOURCEVERSION::5}"
             displayName: set environment name
 
           # echo environment name
