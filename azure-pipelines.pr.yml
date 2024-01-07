@@ -81,11 +81,21 @@ stages:
             displayName: cdk synth
             workingDirectory: src/cdk
 
-          - script: npm run cdk deploy -- --app 'cdk.out' nunnaspizza-$(PR_ENVIRONMENT_NAME) --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
-            displayName: cdk deploy pr environment
+          - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+            inputs:
+              awsCredentials: "azure-deployment"
+              regionName: "eu-west-2"
+              scriptType: "inline"
+              inlineScript: npm run cdk deploy -- --app 'cdk.out' nunnaspizza-$(PR_ENVIRONMENT_NAME) --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
             workingDirectory: src/cdk
             condition: |
               contains(variables['Build.SourceVersionMessage'], '[env]')
+
+          # - script: npm run cdk deploy -- --app 'cdk.out' nunnaspizza-$(PR_ENVIRONMENT_NAME) --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
+          #   displayName: cdk deploy pr environment
+          #   workingDirectory: src/cdk
+          #   condition: |
+          #     contains(variables['Build.SourceVersionMessage'], '[env]')
 
           - publish: $(System.DefaultWorkingDirectory)/src/cdk/cdk.out
             artifact: build
