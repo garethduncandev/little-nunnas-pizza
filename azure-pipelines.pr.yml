@@ -82,7 +82,6 @@ stages:
             workingDirectory: src/cdk
 
           - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
-            workingDirectory: src/cdk
             inputs:
               awsCredentials: "azure-deployment"
               regionName: "eu-west-2"
