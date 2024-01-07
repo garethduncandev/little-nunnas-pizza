@@ -24,6 +24,18 @@ stages:
           - script: echo $(PR_ENVIRONMENT_NAME)
             displayName: PR environment name
 
+          # will create env if commit message has [env] in it
+          - script: echo "Will create environment for $(PR_ENVIRONMENT_NAME)"
+            displayName: create environment
+            condition: |
+              contains(variables['Build.SourceVersionMessage'], '[env]')
+
+          # if commit message does not have [env] in it, it will say this message
+          - script: echo "Will not create environment for $(PR_ENVIRONMENT_NAME)"
+            displayName: do not create environment
+            condition: |
+              !contains(variables['Build.SourceVersionMessage'], '[env]')
+
           - task: UseDotNet@2
             displayName: "Use .NET Core sdk"
             inputs:
