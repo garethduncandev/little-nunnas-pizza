@@ -82,10 +82,12 @@ stages:
             workingDirectory: src/cdk
 
           - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+            workingDirectory: src/cdk
             inputs:
               awsCredentials: "azure-deployment"
               regionName: "eu-west-2"
               scriptType: "inline"
+              workingDirectory: src/cdk
               inlineScript: npm run cdk deploy -- --app 'src/cdk/cdk.out' nunnaspizza-$(PR_ENVIRONMENT_NAME) --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
             condition: |
               contains(variables['Build.SourceVersionMessage'], '[env]')
