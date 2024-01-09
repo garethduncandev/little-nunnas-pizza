@@ -1,5 +1,4 @@
 name: 1.0.$(Rev:r)
-trigger: none
 pool:
   vmImage: ubuntu-latest
 
@@ -17,12 +16,24 @@ stages:
       - job: Build
         steps:
           # set environment name to git commit id to be used in next script
-          - script: echo "##vso[task.setvariable variable=ENVIRONMENTNAME]${BUILD_SOURCEVERSION::5}"
+          - script: echo "##vso[task.setvariable variable=PR_ENVIRONMENT_NAME]${BUILD_SOURCEVERSION::5}"
             displayName: set environment name
 
           # echo environment name
-          - script: echo $(ENVIRONMENTNAME)
+          - script: echo $(PR_ENVIRONMENT_NAME)
             displayName: PR environment name
+
+          # will create env if commit message has [env] in it
+          - script: echo "Will create environment for $(PR_ENVIRONMENT_NAME)"
+            displayName: create environment
+            condition: |
+              contains(variables['Build.SourceVersionMessage'], '[env]')
+
+          # if commit message does not have [env] in it, it will say this message
+          - script: echo "Will not create environment for $(PR_ENVIRONMENT_NAME)"
+            displayName: do not create environment
+            condition: |
+              not(contains(variables['Build.SourceVersionMessage'], '[env]'))
 
           - task: UseDotNet@2
             displayName: "Use .NET Core sdk"
@@ -65,13 +76,21 @@ stages:
             displayName: install npm modules for cdk
             workingDirectory: src/cdk
 
-          - script: npm run cdk synth -- --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
+          - script: sudo npm install -g aws-cdk
+            displayName: install aws cdk
+
+          - script: npm run cdk synth -- --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
             displayName: cdk synth
             workingDirectory: src/cdk
 
-          - script: npm run cdk deploy -- --app 'cdk.out' nunnaspizza-$(ENVIRONMENTNAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
-            displayName: cdk deploy pr environment
-            workingDirectory: src/cdk
+          - task: AmazonWebServices.aws-vsts-tools.AWSShellScript.AWSShellScript@1
+            displayName: "Deploy CDK PR environment"
+            inputs:
+              awsCredentials: "azure-deployment"
+              regionName: "eu-west-2"
+              scriptType: "inline"
+              workingDirectory: src/cdk
+              inlineScript: cdk deploy --app '$(System.DefaultWorkingDirectory)/src/cdk/cdk.out' nunnaspizza-$(PR_ENVIRONMENT_NAME) --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
             condition: |
               contains(variables['Build.SourceVersionMessage'], '[env]')
 
