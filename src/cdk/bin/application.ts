@@ -9,7 +9,7 @@ const prEnvironmentName = app.node.tryGetContext('PR_ENVIRONMENT_NAME');
 
 if (prEnvironmentName) {
   new ApplicationStack(app, `nunnaspizza-${prEnvironmentName}`, {
-    domain: 'nunnas.pizza',
+    domain: 'littlenunnas.pizza',
     subDomain: prEnvironmentName,
     robotsNoIndex: true,
     aspNetCoreEnvironment: 'Development',
@@ -17,28 +17,28 @@ if (prEnvironmentName) {
 }
 
 new ApplicationStack(app, 'nunnaspizza-dev', {
-  domain: 'nunnas.pizza',
+  domain: 'littlenunnas.pizza',
   subDomain: 'dev',
   robotsNoIndex: true,
   aspNetCoreEnvironment: 'Development',
 });
 
 new ApplicationStack(app, 'nunnaspizza-blue', {
-  domain: 'nunnas.pizza',
+  domain: 'littlenunnas.pizza',
   subDomain: 'blue',
   robotsNoIndex: true,
   aspNetCoreEnvironment: 'ProductionBlue',
 });
 
 new ApplicationStack(app, 'nunnaspizza-green', {
-  domain: 'nunnas.pizza',
+  domain: 'littlenunnas.pizza',
   subDomain: 'green',
   robotsNoIndex: true,
   aspNetCoreEnvironment: 'ProductionGreen',
 });
 
 new ApplicationStack(app, 'nunnaspizza-prod', {
-  domain: 'nunnas.pizza',
+  domain: 'littlenunnas.pizza',
   subDomain: undefined,
   robotsNoIndex: true,
   aspNetCoreEnvironment: 'Production',
