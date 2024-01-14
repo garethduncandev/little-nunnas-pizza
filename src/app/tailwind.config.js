@@ -3,8 +3,6 @@ module.exports = {
   content: ["./src/**/*.{html,js}"],
   theme: {
     extend: {
-
-
       screens: {
         'home-full': {
           'raw': 'only screen and (min-height: calc(0.4 * 100vw))'

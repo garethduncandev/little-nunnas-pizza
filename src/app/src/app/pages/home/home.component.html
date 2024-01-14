@@ -1,43 +1,64 @@
+<div class="fixed bottom-0 left-0 right-0 z-10">
+  <ul class="flex list-none bg-green p-0">
+    <li class="">
+      <button
+        (click)="scroll(home)"
+        class="p-1.5 text-lg text-white shadow-md drop-shadow-md lg:text-2xl"
+      >
+        Home
+      </button>
+    </li>
+    <li class="">
+      <button
+        (click)="scroll(gallery)"
+        class="p-1.5 text-lg text-white shadow-md drop-shadow-md lg:text-2xl"
+      >
+        Gallery
+      </button>
+    </li>
+    <li class="">
+      <button
+        (click)="scroll(about)"
+        class="p-1.5 text-lg text-white shadow-md drop-shadow-md lg:text-2xl"
+      >
+        About
+      </button>
+    </li>
+    <li class="">
+      <button
+        (click)="scroll(contactUsForm)"
+        class="p-1.5 text-lg text-white shadow-md drop-shadow-md lg:text-2xl"
+      >
+        Contact us
+      </button>
+    </li>
+  </ul>
+</div>
+
 <div
+  #home
   class="portrait:grid portrait:h-[calc(100svh)] portrait:grid-flow-col portrait:grid-rows-6 portrait:gap-0 portrait:bg-green landscape:grid landscape:h-[calc(100svh)] landscape:landscape:grid-cols-4 landscape:gap-0 landscape:bg-green landscape:portrait:grid-cols-1"
 >
   <div
     class="portrait:row-span-1 landscape:col-span-1 landscape:items-end landscape:justify-center"
   >
     <img
-      class="portrait:row-span-1 portrait:h-full portrait:w-full portrait:p-5 landscape:h-1/2 landscape:p-5"
+      class="portrait:row-span-1 portrait:h-full portrait:w-full portrait:p-5 landscape:h-full landscape:p-5"
       src="/assets/svg/logo.svg"
       alt="Little Nunna's Pizza"
     />
-    <div class="m-3">
-      <button
-        (click)="scroll(contactUsForm)"
-        class="m-g bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
-      >
-        Contact us
-      </button>
-    </div>
   </div>
 
   <div
     class="portrait:row-span-5 landscape:col-span-3 landscape:flex landscape:items-start landscape:justify-center"
   >
     <img
-      class="animate-fade-right p-5 animate-duration-[2000ms] portrait:h-full portrait:w-full landscape:top-0 landscape:h-full"
+      class="animate-fade-right p-3 animate-duration-[2000ms] portrait:h-full portrait:w-full landscape:top-0 landscape:h-full"
       src="/assets/svg/kart.svg"
       alt="Little Nunna's Pizza"
     />
   </div>
 </div>
-
-<!-- <div class="inset-x-0 bottom-0 col-span-3 m-5 text-center home-full:absolute">
-  <button
-    (click)="scroll(contactUsForm)"
-    class="bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
-  >
-    Contact us
-  </button>
-</div> -->
 
 <div class="m-auto max-w-screen-lg p-5">
   <app-social></app-social>
@@ -47,11 +68,11 @@
   <app-hygiene-rating [businessId]="'1382167'"></app-hygiene-rating>
 </div>
 
-<div class="m-auto max-w-screen-lg p-5">
+<div #gallery class="m-auto max-w-screen-lg p-5">
   <app-gallery></app-gallery>
 </div>
 
-<div class="m-auto max-w-screen-lg p-5">
+<div #about class="m-auto max-w-screen-lg p-5">
   <app-about></app-about>
 </div>
 

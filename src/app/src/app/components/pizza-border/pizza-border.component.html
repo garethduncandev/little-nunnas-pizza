@@ -2,7 +2,8 @@
   <img [src]="imageUrl" class="relative rounded-full p-[6%]" alt="pizza" />
 
   <img
-    class="absolute inset-0 h-full w-full rotate-[150deg]"
+    [style]="rotateStyle()"
+    class="absolute inset-0 h-full w-full"
     src="../../../assets/svg/pizza-1.svg"
     alt="pizza"
   />

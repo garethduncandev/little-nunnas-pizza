@@ -1,24 +1,21 @@
-import { Component, Input, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, Input, OnInit, signal } from '@angular/core';
 
 @Component({
   selector: 'app-pizza-border',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './pizza-border.component.html',
   styleUrl: './pizza-border.component.scss',
 })
-export class PizzaBorderComponent {
+export class PizzaBorderComponent implements OnInit {
   @Input() public imageUrl!: string;
-  public classes = signal<string | undefined>(undefined);
+  @Input() public rotation!: number;
 
-  private initialClasses = 'absolute inset-0 h-full w-full';
+  public rotateStyle = signal<string | undefined>(undefined);
 
-  public constructor() {
-    const degreeValue = this.randomDegree();
-    this.classes.set(`${this.initialClasses} rotate-[${degreeValue}deg]`);
-  }
-
-  public randomDegree(): number {
-    return Math.floor(Math.random() * 360);
+  public ngOnInit(): void {
+    const style = `transform: rotate(${this.rotation}deg);`;
+    this.rotateStyle.set(style);
   }
 }
