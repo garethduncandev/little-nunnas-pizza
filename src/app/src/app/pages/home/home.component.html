@@ -1,31 +1,50 @@
-<div class="grid h-[calc(100svh)] grid-flow-col grid-rows-6 gap-0 bg-green">
-  <div class="relative row-span-1">
-    <div class="absolute right-0 top-0 p-1">
-      <app-social></app-social>
+<div
+  class="portrait:grid portrait:h-[calc(100svh)] portrait:grid-flow-col portrait:grid-rows-6 portrait:gap-0 portrait:bg-green landscape:grid landscape:h-[calc(100svh)] landscape:landscape:grid-cols-4 landscape:gap-0 landscape:bg-green landscape:portrait:grid-cols-1"
+>
+  <div
+    class="portrait:row-span-1 landscape:col-span-1 landscape:items-end landscape:justify-center"
+  >
+    <img
+      class="portrait:row-span-1 portrait:h-full portrait:w-full portrait:p-5 landscape:h-1/2 landscape:p-5"
+      src="/assets/svg/logo.svg"
+      alt="Little Nunna's Pizza"
+    />
+    <div class="m-3">
+      <button
+        (click)="scroll(contactUsForm)"
+        class="m-g bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
+      >
+        Contact us
+      </button>
     </div>
-    <img class="h-full w-full p-5" src="/assets/svg/logo.svg" alt="Little Nunna's Pizza" />
   </div>
 
-  <div class="row-span-5">
+  <div
+    class="portrait:row-span-5 landscape:col-span-3 landscape:flex landscape:items-start landscape:justify-center"
+  >
     <img
-      class="h-full w-full animate-fade-right p-5 animate-duration-[2000ms]"
+      class="animate-fade-right p-5 animate-duration-[2000ms] portrait:h-full portrait:w-full landscape:top-0 landscape:h-full"
       src="/assets/svg/kart.svg"
       alt="Little Nunna's Pizza"
     />
   </div>
 </div>
 
-<div class="m-auto max-w-screen-lg p-5">
-  <app-hygiene-rating [businessId]="'1382167'"></app-hygiene-rating>
-</div>
-
-<div class="inset-x-0 bottom-0 col-span-3 m-5 text-center home-full:absolute">
+<!-- <div class="inset-x-0 bottom-0 col-span-3 m-5 text-center home-full:absolute">
   <button
     (click)="scroll(contactUsForm)"
     class="bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
   >
     Contact us
   </button>
+</div> -->
+
+<div class="m-auto max-w-screen-lg p-5">
+  <app-social></app-social>
+</div>
+
+<div class="m-auto max-w-screen-lg p-5">
+  <app-hygiene-rating [businessId]="'1382167'"></app-hygiene-rating>
 </div>
 
 <div class="m-auto max-w-screen-lg p-5">
