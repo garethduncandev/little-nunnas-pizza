@@ -26,7 +26,8 @@ export const appConfig: ApplicationConfig = {
     },
     {
       provide: API_BASE_URL,
-      useFactory: (appSettingsService: AppSettingsService) => appSettingsService.appSettings.apiUrl,
+      useFactory: (appSettingsService: AppSettingsService) =>
+        appSettingsService.appSettings()?.apiUrl,
       deps: [AppSettingsService],
     },
 

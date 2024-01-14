@@ -1,34 +1,45 @@
-<div class="grid h-[calc(100svh)] gap-0 bg-green portrait:grid-cols-1 landscape:grid-cols-3">
-  <div class="col-span-1 flex items-end justify-center">
-    <h1 class="portrait:w-full landscape:h-full">
-      <img
-        class="animate-fade p-5 animate-delay-500 animate-duration-[2000ms] portrait:w-full landscape:h-full"
-        src="/assets/svg/logo.svg"
-        alt="Little Nunna's Pizza"
-      />
-    </h1>
+<div class="grid h-[calc(100svh)] grid-flow-col grid-rows-6 gap-0 bg-green">
+  <div class="relative row-span-1">
+    <div class="absolute right-0 top-0 p-1">
+      <app-social></app-social>
+    </div>
+    <img class="h-full w-full p-5" src="/assets/svg/logo.svg" alt="Little Nunna's Pizza" />
   </div>
 
-  <div class="col-span-2 flex items-start justify-center">
+  <div class="row-span-5">
     <img
-      class="top-0 animate-fade-right p-5 animate-duration-[2000ms] portrait:w-full landscape:h-full"
+      class="h-full w-full animate-fade-right p-5 animate-duration-[2000ms]"
       src="/assets/svg/kart.svg"
       alt="Little Nunna's Pizza"
     />
   </div>
-
-  <div class="inset-x-0 bottom-0 col-span-3 m-5 text-center home-full:absolute">
-    <button
-      (click)="scroll(contactUsForm)"
-      class="animate-fade-up bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md animate-duration-1000"
-    >
-      Contact us
-    </button>
-  </div>
 </div>
 
-<app-gallery></app-gallery>
+<div class="m-auto max-w-screen-lg p-5">
+  <app-hygiene-rating [businessId]="'1382167'"></app-hygiene-rating>
+</div>
 
-<app-about></app-about>
+<div class="inset-x-0 bottom-0 col-span-3 m-5 text-center home-full:absolute">
+  <button
+    (click)="scroll(contactUsForm)"
+    class="bg-red p-3 font-teko text-3xl text-gray drop-shadow-md text-shadow-md"
+  >
+    Contact us
+  </button>
+</div>
 
-<div #contactUsForm><app-contact></app-contact></div>
+<div class="m-auto max-w-screen-lg p-5">
+  <app-gallery></app-gallery>
+</div>
+
+<div class="m-auto max-w-screen-lg p-5">
+  <app-about></app-about>
+</div>
+
+<div #contactUsForm class="m-auto max-w-screen-lg p-5">
+  <app-contact></app-contact>
+</div>
+
+<div class="m-auto max-w-screen-lg p-5">
+  <app-footer></app-footer>
+</div>

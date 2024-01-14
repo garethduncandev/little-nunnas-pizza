@@ -3,7 +3,7 @@
   [class.animate-stop]="!isInViewport"
   [inViewportOptions]="{ threshold: [0.5] }"
   (inViewportAction)="isInViewport = $event.visible"
-  class="animate-fade-left animate-duration-[1000ms] mt-7 p-5 font-teko"
+  class="m-auto mt-7 max-w-screen-lg animate-fade-left p-5 p-5 font-teko animate-duration-[1000ms]"
   inViewport
 >
   <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>

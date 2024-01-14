@@ -8,10 +8,9 @@ describe('PizzaBorderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PizzaBorderComponent]
-    })
-    .compileComponents();
-    
+      imports: [PizzaBorderComponent],
+    }).compileComponents();
+
     fixture = TestBed.createComponent(PizzaBorderComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

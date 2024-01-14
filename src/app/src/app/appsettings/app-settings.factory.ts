@@ -28,7 +28,7 @@ export function appSettingsFactory(): () => Observable<void> {
           return of({} as AppSettings);
         }),
         tap((response) => {
-          appSettingsService.appSettings = response;
+          appSettingsService.appSettings.set(response);
         }),
         mergeMap(() => of(void 0))
       );
