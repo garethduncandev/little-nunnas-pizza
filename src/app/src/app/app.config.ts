@@ -13,11 +13,6 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withFetch(), withInterceptors([])),
-    // {
-    //   provide: APP_BASE_HREF,
-    //   useFactory: BaseHrefFactory,
-    //   deps: [PlatformLocation],
-    // },
     {
       provide: APP_INITIALIZER,
       useFactory: appSettingsFactory,

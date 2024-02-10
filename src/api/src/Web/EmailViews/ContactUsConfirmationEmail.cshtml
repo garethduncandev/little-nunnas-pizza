@@ -1,0 +1,30 @@
+﻿@model Application.ContactUsConfirmationEmail.ContactUsFormConfirmationEmailViewModel
+
+<p>Hello @Model.ContactUsForm.Name,</p>
+<p>Thank you for reaching out to us! We appreciate your interest in our delicious pizzas. 🍕</p>
+
+<p>We will get back to you as soon as we can.</p>
+
+<p>Here are the details you provided:</p>
+<ul>
+    <li>@Model.ContactUsForm.Name</li>
+    <li>@Model.ContactUsForm.Email</li>
+    @if (Model.ContactUsForm.PhoneNumber != null)
+    {
+        <li>@Model.ContactUsForm.PhoneNumber</li>
+    }
+    <li>For how many: @Model.ContactUsForm.PartySize</li>
+</ul>
+<p><i>@Model.ContactUsForm.Message</i></p>
+
+<p>Little Nunna's Pizza 🍕</p>
+
+<div>
+    <img style="margin: auto; max-width:400px; margin-bottom:200px; background-color:#ffffff;" src="cid:@Model.KartImageCid" alt="Little Nunna's Pizza logo'" />
+</div>
+<div>
+    <img style="margin: auto; max-width:400px;" src="cid:@Model.LogoCid" alt="Little Nunna's Pizza logo'" />
+</div>
+<div>
+    <img style="margin: auto; max-width:400px;" src="cid:@Model.FoodHygieneRatingCid" alt="Little Nunna's Pizza logo'" />
+</div>

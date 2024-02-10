@@ -13,6 +13,8 @@ import { PizzaBorderComponent } from '../pizza-border/pizza-border.component';
 export class GalleryComponent {
   public isInViewport = signal<string[]>([]);
 
+  public images = signal<{ url: string; rotate: number }[]>([]);
+
   public addElementInViewport(id: string, visible: boolean): void {
     // if already added to isInViewport
     if (visible && this.isInViewport().some((item) => item === id)) {

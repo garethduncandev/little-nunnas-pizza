@@ -1,43 +1,7 @@
-<div class="fixed bottom-0 left-0 right-0 z-10">
-  <ul class="flex list-none bg-green p-0">
-    <li class="">
-      <button
-        (click)="scroll(home)"
-        class="p-1.5 text-lg text-white shadow-md drop-shadow-md lg:text-2xl"
-      >
-        Home
-      </button>
-    </li>
-    <li class="">
-      <button
-        (click)="scroll(gallery)"
-        class="p-1.5 text-lg text-white shadow-md drop-shadow-md lg:text-2xl"
-      >
-        Gallery
-      </button>
-    </li>
-    <li class="">
-      <button
-        (click)="scroll(about)"
-        class="p-1.5 text-lg text-white shadow-md drop-shadow-md lg:text-2xl"
-      >
-        About
-      </button>
-    </li>
-    <li class="">
-      <button
-        (click)="scroll(contactUsForm)"
-        class="p-1.5 text-lg text-white shadow-md drop-shadow-md lg:text-2xl"
-      >
-        Contact us
-      </button>
-    </li>
-  </ul>
-</div>
-
 <div
   #home
   class="portrait:grid portrait:h-[calc(100svh)] portrait:grid-flow-col portrait:grid-rows-6 portrait:gap-0 portrait:bg-green landscape:grid landscape:h-[calc(100svh)] landscape:landscape:grid-cols-4 landscape:gap-0 landscape:bg-green landscape:portrait:grid-cols-1"
+  id="home"
 >
   <div
     class="portrait:row-span-1 landscape:col-span-1 landscape:items-end landscape:justify-center"
@@ -60,6 +24,32 @@
   </div>
 </div>
 
+<div
+  class="sticky top-0 z-10 -mt-20 mb-20 flex list-none justify-center bg-green-600 p-0 font-teko"
+>
+  <button (click)="scroll(home)" class="m-1 rounded-lg p-1.5 text-2xl text-white sm:text-5xl">
+    Home
+  </button>
+
+  <button
+    (click)="scroll(gallery)"
+    class="m-1 rounded-lg p-1.5 font-teko text-2xl text-white sm:text-5xl"
+  >
+    Gallery
+  </button>
+
+  <button (click)="scroll(about)" class="m-1 rounded-lg p-1.5 text-2xl text-white sm:text-5xl">
+    About
+  </button>
+
+  <button
+    (click)="scroll(contactUsForm)"
+    class="m-1 rounded-lg p-1.5 text-2xl text-white sm:text-5xl"
+  >
+    Contact us
+  </button>
+</div>
+
 <div class="m-auto max-w-screen-lg p-5">
   <app-social></app-social>
 </div>
@@ -68,15 +58,15 @@
   <app-hygiene-rating [businessId]="'1382167'"></app-hygiene-rating>
 </div>
 
-<div #gallery class="m-auto max-w-screen-lg p-5">
+<div #gallery class="m-auto max-w-screen-lg p-5" id="gallery">
   <app-gallery></app-gallery>
 </div>
 
-<div #about class="m-auto max-w-screen-lg p-5">
+<div #about class="m-auto max-w-screen-lg p-5" id="about">
   <app-about></app-about>
 </div>
 
-<div #contactUsForm class="m-auto max-w-screen-lg p-5">
+<div #contactUsForm class="m-auto max-w-screen-lg p-5" id="contactus">
   <app-contact></app-contact>
 </div>
 

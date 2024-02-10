@@ -1,67 +1,136 @@
 <div
   #contactUsForm
-  [class.animate-stop]="!isInViewport"
+  [class.animate-stop]="!isInViewport()"
   [inViewportOptions]="{ threshold: [0.5] }"
-  (inViewportAction)="isInViewport = $event.visible"
-  class="m-auto mt-7 max-w-screen-lg animate-fade-left p-5 p-5 font-teko animate-duration-[1000ms]"
+  (inViewportAction)="isInViewport.set($event.visible)"
+  class="mt-7 max-w-screen-lg animate-fade p-5 font-teko animate-duration-[1000ms]"
   inViewport
 >
-  <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
-  <p class="my-5 text-2xl text-gray">Let us know when, where and roughly how many pizzas 🍕</p>
-  <form class="text-2xl">
-    <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
-      <div class="my-2">
-        <label class="text-gray" for="name">Name</label>
-        <input
-          class="w-full rounded-md px-5 py-2 focus:border-green"
-          id="name"
-          name="name"
-          type="text"
-        />
-      </div>
-      <div class="my-2">
-        <label class="text-gray" for="email">Email</label>
-        <input
-          class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
-          id="email"
-          name="email"
-          type="email"
-        />
-      </div>
+  @if (showContactUsForm()) {
+    <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
+    <p class="my-5 text-2xl text-gray">Let us know when, where and roughly how many pizzas 🍕</p>
 
-      <div class="my-2">
-        <label class="text-gray" for="date">Date</label>
-        <input
-          class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
-          id="date"
-          type="date"
-        />
-      </div>
+    <form [formGroup]="contactUsFormGroup" (ngSubmit)="submit()" class="text-2xl">
+      <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
+        <div class="my-2">
+          <label class="text-gray" for="name">Name<span class="text-red">*</span></label>
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green"
+            id="name"
+            name="name"
+            type="text"
+            formControlName="name"
+          />
+          @if (
+            contactUsFormGroup.controls.name.hasError('required') &&
+            contactUsFormGroup.controls.name.dirty
+          ) {
+            <div class="bg-red-900 text-white">Please provide your name</div>
+          }
+        </div>
+        <div class="my-2">
+          <label class="text-gray" for="email">Email<span class="text-red">*</span></label>
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="email"
+            name="email"
+            type="email"
+            formControlName="email"
+          />
+          @if (
+            contactUsFormGroup.controls.email.errors && contactUsFormGroup.controls.email.dirty
+          ) {
+            <div class="bg-red-900 text-white">Please provide a valid email address</div>
+          }
+        </div>
 
-      <div class="my-2">
-        <label class="text-gray" for="date">Number of pizzas 🍕</label>
-        <input
-          class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
-          id="number-of-pizzas"
-          type="number"
-        />
-      </div>
+        <div class="my-2">
+          <label class="text-gray" for="email">Phone</label>
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="phone"
+            name="phone"
+            type="text"
+            formControlName="phone"
+          />
+        </div>
 
-      <div class="my-2 md:col-span-2">
-        <label class="text-gray" for="message">Message</label>
-        <textarea
-          class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
-          id="message"
-          name="message"
-        ></textarea>
-      </div>
+        <div class="my-2">
+          <label class="text-gray" for="date">Date<span class="text-red">*</span></label>
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="date"
+            type="date"
+            formControlName="date"
+          />
+          @if (
+            contactUsFormGroup.controls.date.hasError('required') &&
+            contactUsFormGroup.controls.date.dirty
+          ) {
+            <div class="bg-red-900 text-white">
+              Please provide a date: if unsure put a rough date and provide further details in the
+              message box below
+            </div>
+          }
+        </div>
 
-      <button
-        class="rounded-md border-r-4 border-none bg-green p-5 text-gray md:col-span-2"
-        type="submit"
-      >
-        Submit
-      </button>
-    </div>
-  </form>
+        <div class="my-2">
+          <label class="text-gray" for="partySize"
+            >Roughly how many to cook for 🍕<span class="text-red">*</span></label
+          >
+          <input
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="number-of-pizzas"
+            type="number"
+            formControlName="partySize"
+          />
+          @if (
+            contactUsFormGroup.controls.partySize.hasError('required') &&
+            contactUsFormGroup.controls.partySize.dirty
+          ) {
+            <div class="bg-red-900 text-white">Please provide a rough estimate</div>
+          }
+        </div>
+
+        <div class="my-2 md:col-span-2">
+          <label class="text-gray" for="message">Message<span class="text-red">*</span></label>
+          <textarea
+            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            id="message"
+            name="message"
+            formControlName="message"
+          ></textarea>
+          @if (
+            contactUsFormGroup.controls.message.hasError('required') &&
+            contactUsFormGroup.controls.message.dirty
+          ) {
+            <div class="bg-red-900 text-white">
+              Please provide a brief description of your request
+            </div>
+          }
+        </div>
+
+        <button
+          [disabled]="!contactUsFormGroup.valid || submitting()"
+          class="rounded-md border-r-4 border-none bg-green p-5 text-gray md:col-span-2"
+          type="submit"
+        >
+          Submit
+        </button>
+      </div>
+    </form>
+  }
+
+  @if (submitting()) {
+    <p class="text-center text-4xl">Please wait <span class="animate-spin">🍕</span></p>
+  }
+  @if (submitError()) {
+    <p class="text-center text-4xl">Sorry, something wen't wrong</p>
+  }
+
+  @if (submitted()) {
+    <p class="text-center text-4xl text-white">
+      Thank you for contacting us! We will get back to you as soon as we can 🍕🍕🍕
+    </p>
+  }
 </div>

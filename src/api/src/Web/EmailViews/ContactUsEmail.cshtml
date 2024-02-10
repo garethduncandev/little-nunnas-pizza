@@ -1,0 +1,21 @@
+﻿@model Application.ContactUsFormEmail.ContactUsFormEmailViewModel
+<h1>Little Nunna's Pizza: Contact Us Submission</h1>
+<p>Submitted date time: @Model.SubmittedDateTime.ToString("F")</p>
+<h2>Customer</h2>
+<ul>
+    <li>@Model.ContactUsForm.Name </li>
+    <li>@Model.ContactUsForm.Email </li>
+    @if (Model.ContactUsForm.PhoneNumber != null)
+    {
+        <li>@Model.ContactUsForm.PhoneNumber </li>
+    }
+</ul>
+
+<h2>Message</h2>
+<p>
+    <i>@Model.ContactUsForm.Message</i>
+</p>
+
+<div>
+    <img src="cid:@Model.LogoCid" alt="Little Nunna's Pizza logo'" />
+</div>
