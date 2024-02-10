@@ -26,7 +26,7 @@ export class LambdaDockerImageFunction extends Construct {
     const code = DockerImageCode.fromImageAsset(
       path.join(
         __dirname,
-        '../../../api/src/WebUI/bin/Release/net8.0/linux-x64/publish'
+        '../../../api/src/Web/bin/Release/net8.0/linux-x64/publish'
       )
     );
 
