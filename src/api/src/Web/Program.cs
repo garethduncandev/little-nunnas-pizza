@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Amazon.Extensions.Configuration.SystemsManager;
 using Application.ContactUsConfirmationEmail;
 using Application.ContactUsForm;
@@ -89,6 +90,11 @@ if (app.Environment.IsDevelopment())
 else
 {
     app.UseCors("ProductionOrigins");
+}
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
