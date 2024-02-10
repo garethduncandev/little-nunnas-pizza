@@ -34,7 +34,7 @@ stages:
 
           - script: dotnet publish --configuration "Release" /p:GenerateRuntimeConfigurationFiles=true /p:AssemblyVersion=$(Build.BuildNumber) --runtime linux-x64 --self-contained false
             displayName: "Build .net api"
-            workingDirectory: src/api/src/WebUI
+            workingDirectory: src/api/src/Web
 
           - script: dotnet --version > ../app/src/versions/dotnet-version.txt
             displayName: "Get .NET version"
