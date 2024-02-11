@@ -21,10 +21,13 @@ public class ContactUsFormEmailService(
             var contactUsModel =
                 new ContactUsFormEmailViewModel(attachment.ContentId, contactUsForm, submittedDateTimeUtc);
 
-            var body = await razorViewRenderService.RenderViewToStringAsync("EmailViews/ContactUsEmail.cshtml",
+            var htmlBody = await razorViewRenderService.RenderViewToStringAsync("EmailViews/ContactUsEmail.cshtml",
                 contactUsModel);
 
-            await smtpService.SendEmailAsync(toEmailAddress, fromEmailAddress, "New Contact Us Message", body, true,
+            var textBody = await razorViewRenderService.RenderViewToStringAsync("EmailViews/ContactUsEmailText.cshtml",
+                contactUsModel);
+
+            await smtpService.SendEmailAsync(toEmailAddress, fromEmailAddress, "New Contact Us Message", htmlBody, textBody,
                 [attachment]);
         }
         catch (Exception ex)

@@ -24,11 +24,14 @@ public class ContactUsFormConfirmationEmailService(
                 new ContactUsFormConfirmationEmailViewModel(attachmentLogo.ContentId, attachmentKart.ContentId,
                     attachmentRating.ContentId, contactUsForm, submittedDateTimeUtc);
 
-            var body = await razorViewRenderService.RenderViewToStringAsync(
+            var htmlBody = await razorViewRenderService.RenderViewToStringAsync(
                 "EmailViews/ContactUsConfirmationEmail.cshtml", contactUsConfirmationEmailViewModel);
 
+            var textBody = await razorViewRenderService.RenderViewToStringAsync(
+                "EmailViews/ContactUsConfirmationEmailText.cshtml", contactUsConfirmationEmailViewModel);
+
             await smtpService.SendEmailAsync(contactUsForm.Email, fromEmailAddress,
-                "Little Nunna's Pizza - We received your message", body, true,
+                "Little Nunna's Pizza - We received your message", htmlBody, textBody,
                 [attachmentLogo, attachmentKart, attachmentRating]);
         }
         catch (Exception ex)

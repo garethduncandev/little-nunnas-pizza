@@ -33,13 +33,10 @@
       <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="EmailViews\ContactUsConfirmationEmailText.cshtml">
+    <Content Update="EmailViews\ContactUsConfirmationEmail - Copy.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="EmailViews\ContactUsConfirmationEmail.cshtml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Update="EmailViews\ContactUsEmailText.cshtml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Update="EmailViews\ContactUsEmail.cshtml">

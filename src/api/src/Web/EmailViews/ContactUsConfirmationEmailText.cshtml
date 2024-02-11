@@ -1,0 +1,20 @@
+﻿@model Application.ContactUsConfirmationEmail.ContactUsFormConfirmationEmailViewModel
+Hello @Model.ContactUsForm.Name,
+Thank you for reaching out to us! We appreciate your interest in our delicious pizzas. 🍕
+
+We will get back to you as soon as we can.
+
+Here are the details you provided:
+
+@Model.ContactUsForm.Name
+@Model.ContactUsForm.Email
+@if (Model.ContactUsForm.PhoneNumber != null)
+{
+    @Model.ContactUsForm.PhoneNumber
+}
+For how many: @Model.ContactUsForm.PartySize
+
+Message:
+@Model.ContactUsForm.Message
+
+Little Nunna's Pizza 🍕

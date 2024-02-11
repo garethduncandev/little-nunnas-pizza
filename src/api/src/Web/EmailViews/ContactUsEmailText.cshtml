@@ -1,0 +1,16 @@
+﻿@model Application.ContactUsFormEmail.ContactUsFormEmailViewModel
+Little Nunna's Pizza: Contact Us Submission
+
+Submitted date time: @Model.SubmittedDateTime.ToString("F")
+
+Customer:
+@Model.ContactUsForm.Name
+@Model.ContactUsForm.Email
+@if (Model.ContactUsForm.PhoneNumber != null)
+{
+    @Model.ContactUsForm.PhoneNumber
+}
+
+
+Message:
+@Model.ContactUsForm.Message

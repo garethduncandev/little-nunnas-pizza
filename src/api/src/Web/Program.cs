@@ -1,5 +1,6 @@
 
 using Amazon.Extensions.Configuration.SystemsManager;
+using Amazon.SimpleEmail;
 using Application.ContactUsConfirmationEmail;
 using Application.ContactUsForm;
 using Application.ContactUsFormEmail;
@@ -7,6 +8,7 @@ using Application.RazorViewRender;
 using Application.Smtp;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using NLog;
 using Web.Logging;
 
@@ -35,6 +37,7 @@ builder.Services.AddTransient<IContactUsFormService, ContactUsFormService>();
 builder.Services.AddTransient<IContactUsFormEmailService, ContactUsFormEmailService>();
 builder.Services.AddTransient<IContactUsFormConfirmationEmailService, ContactUsFormConfirmationEmailService>();
 builder.Services.AddScoped<IValidator<ContactUsFormModel>, ContactUsFormValidator>();
+builder.Services.AddAWSService<IAmazonSimpleEmailService>();
 
 builder.Services.AddMvc();
 
@@ -114,11 +117,21 @@ app.MapGet("/diagnostics", () => DateTime.UtcNow)
 
 if (app.Environment.IsDevelopment())
 {
+    var fromEmailAddress = builder.Configuration.GetValue<string>("ContactUs:From")!;
+    var toEmailAddress = builder.Configuration.GetValue<string>("ContactUs:To")!;
+
     app.MapGet("/contact-us", async (IContactUsFormService contactUsService) =>
             await contactUsService.SubmitContactUsAsync(
-                new ContactUsFormModel("Test Name", "Test Email", "123456789", DateTime.Now, new Random().Next(20, 100),
+                new ContactUsFormModel("Test Name", toEmailAddress, "123456789", DateTime.Now, new Random().Next(20, 100),
                     "Test Message"),
                 DateTime.UtcNow))
+        .WithTags("ContactUs");
+
+    app.MapGet("/contact-us-confirmation", async (IContactUsFormConfirmationEmailService contactUsFormConfirmationEmailService) =>
+            await contactUsFormConfirmationEmailService.SendContactUsConfirmationEmailAsync(
+                new ContactUsFormModel("Test Name", toEmailAddress, "123456789", DateTime.Now, 20,
+                    "Test Message"),
+                DateTime.UtcNow, fromEmailAddress))
         .WithTags("ContactUs");
 
     app.MapGet("/throw-error", _ =>

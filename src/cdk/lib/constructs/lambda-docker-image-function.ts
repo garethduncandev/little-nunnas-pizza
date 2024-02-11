@@ -3,11 +3,6 @@ import { Effect, PolicyStatement } from 'aws-cdk-lib/aws-iam';
 import { DockerImageCode, DockerImageFunction } from 'aws-cdk-lib/aws-lambda';
 import { Construct } from 'constructs/lib/construct';
 import path = require('path');
-import {
-  StringParameter,
-  ParameterTier,
-  ParameterDataType,
-} from 'aws-cdk-lib/aws-ssm';
 
 export class LambdaDockerImageFunctionProps {
   public constructor(public readonly aspNetCoreEnvironment: string) {}
@@ -43,37 +38,13 @@ export class LambdaDockerImageFunction extends Construct {
       }
     );
 
-    // const smtpHostParam = new StringParameter(this, `ssm`, {
-    //   parameterName: `/littlenunnaspizza/${props.aspNetCoreEnvironment}/Smtp/Host`,
-    //   stringValue: 'email-smtp.eu-west-2.amazonaws.com',
-    //   tier: ParameterTier.STANDARD,
-    //   dataType: ParameterDataType.TEXT,
-    // });
-
-    // const smtpPortParam = new StringParameter(this, `ssm`, {
-    //   parameterName: `/littlenunnaspizza/${props.aspNetCoreEnvironment}/Smtp/Port`,
-    //   stringValue: '25',
-    //   tier: ParameterTier.STANDARD,
-    //   dataType: ParameterDataType.TEXT,
-    // });
-
-    // const smtpUsernamePortParam = new StringParameter(this, `ssm`, {
-    //   parameterName: `/littlenunnaspizza/${props.aspNetCoreEnvironment}/Smtp/Username`,
-    //   stringValue: '',
-    //   dataType: ParameterDataType.TEXT,
-    //   tier: ParameterTier.STANDARD,
-    // });
-
-    // const smtpPasswordParam = new StringParameter(this, `ssm`, {
-    //   parameterName: `/littlenunnaspizza/${props.aspNetCoreEnvironment}/Smtp/Password`,
-    //   stringValue: '',
-    //   dataType: ParameterDataType.TEXT,
-    //   tier: ParameterTier.STANDARD,
-    // });
-
-    // smtpHostParam.grantRead(this.dockerImageFunction);
-    // smtpPortParam.grantRead(this.dockerImageFunction);
-    // smtpUsernamePortParam.grantRead(this.dockerImageFunction);
-    // smtpPasswordParam.grantRead(this.dockerImageFunction);
+    // policy to send email
+    this.dockerImageFunction.addToRolePolicy(
+      new PolicyStatement({
+        effect: Effect.ALLOW,
+        actions: ['ses:SendEmail', 'ses:SendRawEmail'],
+        resources: ['*'],
+      })
+    );
   }
 }
