@@ -1,1 +1,7 @@
-<p>diagnostics works!</p>
+<h1>Diagnostics</h1>
+
+@if (diagnostics()) {
+  <p>api datetime: {{ diagnostics() | date }}</p>
+} @else {
+  <p>Calling diagnostics endpoint</p>
+}
