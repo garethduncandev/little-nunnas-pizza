@@ -26,7 +26,6 @@ public static class NlogConfiguration
 
         config.LoggingRules.Add(new LoggingRule("*", LogLevel.Error, awsTarget));
 
-
         var consoleTarget = new ColoredConsoleTarget
         {
             Layout = layout,
