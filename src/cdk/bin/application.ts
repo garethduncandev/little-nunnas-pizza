@@ -40,6 +40,6 @@ new ApplicationStack(app, 'nunnaspizza-green', {
 new ApplicationStack(app, 'nunnaspizza-prod', {
   domain: 'littlenunnas.pizza',
   subDomain: undefined,
-  robotsNoIndex: true,
+  robotsNoIndex: false,
   aspNetCoreEnvironment: 'Production',
 });
