@@ -38,11 +38,19 @@ export class LambdaDockerImageFunction extends Construct {
       }
     );
 
-    // policy to send email
+    // Additional policy statements to allow the lambda to
+    // send emails, read SSM parameters, and decrypt KMS keys
     this.dockerImageFunction.addToRolePolicy(
       new PolicyStatement({
         effect: Effect.ALLOW,
-        actions: ['ses:SendEmail', 'ses:SendRawEmail'],
+        actions: [
+          'ses:SendEmail',
+          'ses:SendRawEmail',
+          'ssm:GetParameter',
+          'ssm:GetParameters',
+          'ssm:GetParametersByPath',
+          'kms:Decrypt',
+        ],
         resources: ['*'],
       })
     );
