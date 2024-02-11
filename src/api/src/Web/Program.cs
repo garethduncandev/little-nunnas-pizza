@@ -1,4 +1,4 @@
-using System.Diagnostics;
+
 using Amazon.Extensions.Configuration.SystemsManager;
 using Application.ContactUsConfirmationEmail;
 using Application.ContactUsForm;
@@ -7,11 +7,18 @@ using Application.RazorViewRender;
 using Application.Smtp;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
+using NLog;
+using Web.Logging;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
 var environment = builder.Environment.EnvironmentName;
+
+NlogConfiguration.ConfigureNlog(environment);
+var logger = LogManager.GetCurrentClassLogger();
+
+logger.Info($"Environment: {environment}");
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -69,6 +76,8 @@ var smtpConfig = new SmtpConfiguration(
           builder.Configuration.GetValue<string>("smtp:password")!,
           true);
 
+logger.Info($"SMTP configured on port {builder.Configuration.GetValue<int>("smtp:port")}");
+
 builder.Services.AddSingleton(smtpConfig);
 
 builder.Services.AddSwaggerDocument(configure =>
@@ -106,41 +115,34 @@ app.MapGet("/diagnostics", () => DateTime.UtcNow)
 if (app.Environment.IsDevelopment())
 {
     app.MapGet("/contact-us", async (IContactUsFormService contactUsService) =>
-        await contactUsService.SubmitContactUsAsync(
-            new ContactUsFormModel("Test Name", "Test Email", "123456789", DateTime.Now, new Random().Next(20, 100), "Test Message"),
-            DateTime.UtcNow))
+            await contactUsService.SubmitContactUsAsync(
+                new ContactUsFormModel("Test Name", "Test Email", "123456789", DateTime.Now, new Random().Next(20, 100),
+                    "Test Message"),
+                DateTime.UtcNow))
         .WithTags("ContactUs");
+
+    app.MapGet("/throw-error", _ =>
+    {
+        logger.Error("Example error thrown");
+        throw new Exception("Example error");
+    }).WithTags("ThrowError");
 }
 
 app.MapPost("/contact-us",
         async ([FromServices] IContactUsFormService contactUsService, [FromBody] ContactUsFormModel contactUsForm) =>
-        await contactUsService.SubmitContactUsAsync(contactUsForm, DateTime.UtcNow))
+        {
+            try
+            {
+                await contactUsService.SubmitContactUsAsync(contactUsForm, DateTime.UtcNow);
+                logger.Info("Contact Us form submitted");
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, "Contact Us form submission failure");
+            }
+            
+        })
     .WithTags("ContactUs");
 
 app.Run();
 
-
-//static AWSCredentials LoadSsoCredentials(string profile)
-//{
-//    var chain = new CredentialProfileStoreChain();
-//    if (!chain.TryGetAWSCredentials(profile, out var credentials))
-//        throw new Exception($"Failed to find the {profile} profile");
-
-//    var ssoCredentials = credentials as SSOAWSCredentials;
-
-//    ssoCredentials.Options.ClientName = "Example-SSO-App";
-//    ssoCredentials.Options.SsoVerificationCallback = args =>
-//    {
-//        // Launch a browser window that prompts the SSO user to complete an SSO login.
-//        //  This method is only invoked if the session doesn't already have a valid SSO token.
-//        // NOTE: Process.Start might not support launching a browser on macOS or Linux. If not,
-//        //       use an appropriate mechanism on those systems instead.
-//        Process.Start(new ProcessStartInfo
-//        {
-//            FileName = args.VerificationUriComplete,
-//            UseShellExecute = true
-//        });
-//    };
-
-//    return ssoCredentials;
-//}
