@@ -122,10 +122,13 @@
   }
 
   @if (submitting()) {
-    <p class="text-center text-4xl">Please wait <span class="animate-spin">🍕</span></p>
+    <p class="text-center text-4xl text-white">Please wait <span class="animate-spin">🍕</span></p>
   }
   @if (submitError()) {
-    <p class="text-center text-4xl">Sorry, something wen't wrong</p>
+    <p class="text-center text-4xl text-white">
+      Sorry, something wen't wrong. Please call us on 07465214423 / 07508320314 or email us at
+      <a href="mailto:littlenunnaspizza@gmail.com">littlenunnaspizza&#64;gmail.com</a>
+    </p>
   }
 
   @if (submitted()) {

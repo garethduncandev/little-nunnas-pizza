@@ -94,7 +94,7 @@ else
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
+    // app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
@@ -112,8 +112,9 @@ if (app.Environment.IsDevelopment())
         .WithTags("ContactUs");
 }
 
-app.MapPost("/contact-us", async ([FromServices] IContactUsFormService contactUsService, [FromBody]ContactUsFormModel contactUsForm) =>
-    await contactUsService.SubmitContactUsAsync(contactUsForm, DateTime.UtcNow))
+app.MapPost("/contact-us",
+        async ([FromServices] IContactUsFormService contactUsService, [FromBody] ContactUsFormModel contactUsForm) =>
+        await contactUsService.SubmitContactUsAsync(contactUsForm, DateTime.UtcNow))
     .WithTags("ContactUs");
 
 app.Run();
