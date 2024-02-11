@@ -5,7 +5,6 @@ import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, tap } from 'rxjs/operators';
 import { AppSettingsService } from './app-settings.service';
 import { AppSettings } from './appsettings';
-import { DiagnosticsClient } from '../web-api-client';
 
 export function appSettingsFactory(): () => Observable<void> {
   const location = inject(Location);
@@ -17,12 +16,6 @@ export function appSettingsFactory(): () => Observable<void> {
 
   const appSettingsPath = `assets/appsettings.json?v=${buildNumber}`;
   const fullAppSettingsPath = location.prepareExternalUrl(appSettingsPath);
-
-  inject(DiagnosticsClient)
-    .getDiagnostics()
-    .subscribe((response) => {
-      console.log(response);
-    });
 
   const request = (): Observable<void> =>
     httpClient
