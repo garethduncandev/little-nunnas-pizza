@@ -49,7 +49,6 @@ export class LambdaDockerImageFunction extends Construct {
           'ssm:GetParameter',
           'ssm:GetParameters',
           'ssm:GetParametersByPath',
-          'kms:Decrypt',
         ],
         resources: ['*'],
       })
