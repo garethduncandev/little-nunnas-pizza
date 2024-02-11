@@ -7,12 +7,12 @@ using Microsoft.Extensions.Logging;
 namespace Application.ContactUsFormEmail;
 
 public class ContactUsFormEmailService(
-    ISmtpService smtpService,
+    IAmazonSesService amazonSesService,
     IRazorViewRenderService razorViewRenderService,
     ILogger<ContactUsFormEmailService> logger) : IContactUsFormEmailService
 {
     public async Task SendContactUsEmailAsync(ContactUsFormModel contactUsForm, DateTime submittedDateTimeUtc,
-        string toEmailAddress, string fromEmailAddress)
+        string[] toEmailAddresses, string fromEmailAddress, string[] replyToList)
     {
         try
         {
@@ -27,12 +27,14 @@ public class ContactUsFormEmailService(
             var textBody = await razorViewRenderService.RenderViewToStringAsync("EmailViews/ContactUsEmailText.cshtml",
                 contactUsModel);
 
-            await smtpService.SendEmailAsync(toEmailAddress, fromEmailAddress, "New Contact Us Message", htmlBody, textBody,
-                [attachment]);
+            var emailRequest = new EmailRequest(toEmailAddresses, fromEmailAddress, replyToList,
+                               "New Contact Us Message", htmlBody, textBody, [attachment]);
+
+            await amazonSesService.SendEmailAsync(emailRequest);
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Failed to send contact us email to {toEmailAddress}", toEmailAddress);
+            logger.LogError(ex, "Failed to send contact us email to {toEmailAddress}", string.Join(',', toEmailAddresses));
             throw;
         }
     }

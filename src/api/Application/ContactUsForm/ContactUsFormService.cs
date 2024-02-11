@@ -15,10 +15,16 @@ public class ContactUsFormService(
     {
         try
         {
-            var fromEmailAddress = configuration.GetValue<string>("ContactUs:From")!;
-            var toEmailAddress = configuration.GetValue<string>("ContactUs:To")!;
-            await contactUsEmailService.SendContactUsEmailAsync(contactDetails, submittedDateTimeUtc, toEmailAddress, fromEmailAddress);
-            await contactUsConfirmationEmailService.SendContactUsConfirmationEmailAsync(contactDetails, submittedDateTimeUtc, fromEmailAddress);
+            var senderEmailAddress = configuration.GetValue<string>("ContactUs:From")!;
+            var toEmailAddressesParamValue = configuration.GetValue<string>("ContactUs:To")!;
+            var toEmailAddresses = toEmailAddressesParamValue.Split(',');
+
+            var replyTo = contactDetails.Email;
+            await contactUsEmailService.SendContactUsEmailAsync(contactDetails, submittedDateTimeUtc, toEmailAddresses, senderEmailAddress, [replyTo]);
+
+            var replyTos = configuration.GetValue<string>("ContactUs:ReplyTo")!;
+            var replyToList = replyTos.Split(',');
+            await contactUsConfirmationEmailService.SendContactUsConfirmationEmailAsync(contactDetails, submittedDateTimeUtc, senderEmailAddress, replyToList);
         }
         catch (Exception ex)
         {

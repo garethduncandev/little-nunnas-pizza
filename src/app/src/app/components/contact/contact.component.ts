@@ -33,6 +33,12 @@ export class ContactComponent {
   }
 
   public submit(): void {
+    if (this.contactUsFormGroup.invalid) {
+      // show errors
+      this.contactUsFormGroup.markAllAsTouched();
+      return;
+    }
+
     const contactUs = new ContactUsFormModel();
     contactUs.name = this.contactUsFormGroup.value.name!;
     contactUs.email = this.contactUsFormGroup.value.email!;
@@ -72,8 +78,8 @@ export class ContactComponent {
     const result = this.formBuilder.group<ContactUsForm>({
       name: this.formBuilder.control<string>('', Validators.required),
       email: this.formBuilder.control<string>('', [Validators.required, Validators.email]),
-      phone: this.formBuilder.control<string | undefined>(undefined),
-      date: this.formBuilder.control<Date>(new Date(), Validators.required),
+      phone: this.formBuilder.control<string>(''),
+      date: this.formBuilder.control<Date | undefined>(undefined, Validators.required),
       partySize: this.formBuilder.control<number>(20, [
         Validators.required,
         Validators.min(20),

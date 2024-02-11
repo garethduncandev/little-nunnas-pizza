@@ -1,4 +1,6 @@
-﻿using System.Net.Mail;
+﻿
+using System.Net.Mail;
+using System.Net.Mime;
 using Application.ContactUsForm;
 using Application.RazorViewRender;
 using Application.Smtp;
@@ -7,19 +9,20 @@ using Microsoft.Extensions.Logging;
 namespace Application.ContactUsConfirmationEmail;
 
 public class ContactUsFormConfirmationEmailService(
-    ISmtpService smtpService,
+    IAmazonSesService amazonSesService,
     IRazorViewRenderService razorViewRenderService,
     ILogger<ContactUsFormConfirmationEmailService> logger) : IContactUsFormConfirmationEmailService
 {
     public async Task SendContactUsConfirmationEmailAsync(ContactUsFormModel contactUsForm,
-        DateTime submittedDateTimeUtc, string fromEmailAddress)
+        DateTime submittedDateTimeUtc, string senderEmailAddress, string[] replyToList)
     {
         try
         {
-            var attachmentLogo = new Attachment("Images/logo-email.png");
-            var attachmentKart = new Attachment("Images/kart.png");
-            var attachmentRating = new Attachment("Images/food-hygiene-rating-5-medium.png");
+            var attachmentLogo = new Attachment("Images/logo-email.png", MediaTypeNames.Image.Png);
+            var attachmentKart = new Attachment("Images/kart.png", MediaTypeNames.Image.Png);
+            var attachmentRating = new Attachment("Images/food-hygiene-rating-5-medium.png", MediaTypeNames.Image.Png);
 
+ 
             var contactUsConfirmationEmailViewModel =
                 new ContactUsFormConfirmationEmailViewModel(attachmentLogo.ContentId, attachmentKart.ContentId,
                     attachmentRating.ContentId, contactUsForm, submittedDateTimeUtc);
@@ -30,9 +33,11 @@ public class ContactUsFormConfirmationEmailService(
             var textBody = await razorViewRenderService.RenderViewToStringAsync(
                 "EmailViews/ContactUsConfirmationEmailText.cshtml", contactUsConfirmationEmailViewModel);
 
-            await smtpService.SendEmailAsync(contactUsForm.Email, fromEmailAddress,
-                "Little Nunna's Pizza - We received your message", htmlBody, textBody,
-                [attachmentLogo, attachmentKart, attachmentRating]);
+            var emailRequest = new EmailRequest([contactUsForm.Email], senderEmailAddress, replyToList,
+                               "Little Nunna's Pizza - We received your message", htmlBody, textBody,
+                                              [attachmentLogo, attachmentKart, attachmentRating]);
+
+            await amazonSesService.SendEmailAsync(emailRequest);
         }
         catch (Exception ex)
         {

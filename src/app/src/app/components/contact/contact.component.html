@@ -23,7 +23,7 @@
           />
           @if (
             contactUsFormGroup.controls.name.hasError('required') &&
-            contactUsFormGroup.controls.name.dirty
+            contactUsFormGroup.controls.name.touched
           ) {
             <div class="bg-red-900 text-white">Please provide your name</div>
           }
@@ -38,7 +38,7 @@
             formControlName="email"
           />
           @if (
-            contactUsFormGroup.controls.email.errors && contactUsFormGroup.controls.email.dirty
+            contactUsFormGroup.controls.email.errors && contactUsFormGroup.controls.email.touched
           ) {
             <div class="bg-red-900 text-white">Please provide a valid email address</div>
           }
@@ -65,7 +65,7 @@
           />
           @if (
             contactUsFormGroup.controls.date.hasError('required') &&
-            contactUsFormGroup.controls.date.dirty
+            contactUsFormGroup.controls.date.touched
           ) {
             <div class="bg-red-900 text-white">
               Please provide a date: if unsure put a rough date and provide further details in the
@@ -85,10 +85,10 @@
             formControlName="partySize"
           />
           @if (
-            contactUsFormGroup.controls.partySize.hasError('required') &&
-            contactUsFormGroup.controls.partySize.dirty
+            contactUsFormGroup.controls.partySize.errors &&
+            contactUsFormGroup.controls.partySize.touched
           ) {
-            <div class="bg-red-900 text-white">Please provide a rough estimate</div>
+            <div class="bg-red-900 text-white">Please provide a rough estimate of 20 or more</div>
           }
         </div>
 
@@ -102,7 +102,7 @@
           ></textarea>
           @if (
             contactUsFormGroup.controls.message.hasError('required') &&
-            contactUsFormGroup.controls.message.dirty
+            contactUsFormGroup.controls.message.touched
           ) {
             <div class="bg-red-900 text-white">
               Please provide a brief description of your request
@@ -111,7 +111,7 @@
         </div>
 
         <button
-          [disabled]="!contactUsFormGroup.valid || submitting()"
+          [disabled]="submitting()"
           class="rounded-md border-r-4 border-none bg-green p-5 text-gray md:col-span-2"
           type="submit"
         >

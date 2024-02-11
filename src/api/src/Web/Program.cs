@@ -8,7 +8,6 @@ using Application.RazorViewRender;
 using Application.Smtp;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using NLog;
 using Web.Logging;
 
@@ -32,7 +31,7 @@ builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddTransient<IRazorViewRenderService, RazorViewRenderService>();
-builder.Services.AddTransient<ISmtpService, SmtpService>();
+builder.Services.AddTransient<IAmazonSesService, AmazonSesService>();
 builder.Services.AddTransient<IContactUsFormService, ContactUsFormService>();
 builder.Services.AddTransient<IContactUsFormEmailService, ContactUsFormEmailService>();
 builder.Services.AddTransient<IContactUsFormConfirmationEmailService, ContactUsFormConfirmationEmailService>();
@@ -70,19 +69,6 @@ builder.Services.AddCors(options =>
 
 builder.Configuration.WaitForSystemsManagerReloadToComplete(TimeSpan.FromSeconds(5));
 
-// read smtp configuration from aws parameter store
-
-var smtpConfig = new SmtpConfiguration(
-       builder.Configuration.GetValue<string>("smtp:host")!,
-          builder.Configuration.GetValue<int>("smtp:port"),
-          builder.Configuration.GetValue<string>("smtp:username")!,
-          builder.Configuration.GetValue<string>("smtp:password")!,
-          true);
-
-logger.Info($"SMTP configured on port {builder.Configuration.GetValue<int>("smtp:port")}");
-
-builder.Services.AddSingleton(smtpConfig);
-
 builder.Services.AddSwaggerDocument(configure =>
 {
     configure.Title = "Little Nunnas Pizza";
@@ -118,20 +104,23 @@ app.MapGet("/diagnostics", () => DateTime.UtcNow)
 if (app.Environment.IsDevelopment())
 {
     var fromEmailAddress = builder.Configuration.GetValue<string>("ContactUs:From")!;
-    var toEmailAddress = builder.Configuration.GetValue<string>("ContactUs:To")!;
+    var toEmailAddressesParamValue = builder.Configuration.GetValue<string>("ContactUs:To")!;
+    var toEmailAddresses = toEmailAddressesParamValue.Split(',');
+    var replyTos = builder.Configuration.GetValue<string>("ContactUs:ReplyTo")!;
+    var replyToList = replyTos.Split(',');
 
     app.MapGet("/contact-us", async (IContactUsFormService contactUsService) =>
             await contactUsService.SubmitContactUsAsync(
-                new ContactUsFormModel("Test Name", toEmailAddress, "123456789", DateTime.Now, new Random().Next(20, 100),
+                new ContactUsFormModel("Test Name", toEmailAddresses[0], "123456789", DateTime.Now, new Random().Next(20, 100),
                     "Test Message"),
                 DateTime.UtcNow))
         .WithTags("ContactUs");
 
     app.MapGet("/contact-us-confirmation", async (IContactUsFormConfirmationEmailService contactUsFormConfirmationEmailService) =>
             await contactUsFormConfirmationEmailService.SendContactUsConfirmationEmailAsync(
-                new ContactUsFormModel("Test Name", toEmailAddress, "123456789", DateTime.Now, 20,
+                new ContactUsFormModel("Test Name", toEmailAddresses[0], "123456789", DateTime.Now, 20,
                     "Test Message"),
-                DateTime.UtcNow, fromEmailAddress))
+                DateTime.UtcNow, fromEmailAddress, replyToList))
         .WithTags("ContactUs");
 
     app.MapGet("/throw-error", _ =>
