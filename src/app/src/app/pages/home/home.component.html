@@ -1,20 +1,20 @@
 <div
   #home
-  class="portrait:grid portrait:h-[calc(100svh)] portrait:grid-flow-col portrait:grid-rows-7 portrait:gap-0 portrait:bg-green landscape:grid landscape:h-[calc(100svh)] landscape:landscape:grid-cols-4 landscape:gap-0 landscape:bg-green landscape:portrait:grid-cols-1"
+  class="grid-cols-1 portrait:grid portrait:h-[calc(100svh)] portrait:grid-flow-col portrait:grid-rows-7 portrait:gap-0 portrait:bg-green landscape:grid landscape:h-[calc(100svh)] landscape:landscape:grid-cols-4 landscape:gap-0 landscape:bg-green"
   id="home"
 >
   <div
-    class="portrait:row-span-2 landscape:col-span-1 landscape:items-end landscape:justify-center"
+    class="z-10 portrait:row-span-2 landscape:col-span-1 landscape:items-end landscape:justify-center"
   >
     <img
-      class="z-10 portrait:mt-20 portrait:h-full portrait:w-full landscape:h-full"
+      class="portrait:h-full portrait:w-full landscape:h-full"
       src="/assets/svg/logo.svg"
       alt="Little Nunna's Pizza"
     />
   </div>
 
   <div
-    class="z-0 portrait:row-span-5 landscape:col-span-3 landscape:flex landscape:items-start landscape:justify-center landscape:p-20"
+    class="portrait:row-span-5 landscape:col-span-3 landscape:flex landscape:items-start landscape:justify-center landscape:p-20"
   >
     <img
       class="animate-fade-right p-3 pb-20 animate-duration-[2000ms] portrait:h-full portrait:w-full landscape:top-0 landscape:h-full"
@@ -25,27 +25,17 @@
 </div>
 
 <div
-  class="sticky top-0 z-10 -mt-20 mb-20 flex list-none justify-center bg-green-600 p-0 font-teko"
+  class="sticky top-0 z-10 -mt-20 mb-20 flex list-none justify-center bg-green-600 p-0 font-teko text-sm sm:text-3xl"
 >
-  <button (click)="scroll(home)" class="m-1 rounded-lg p-1.5 text-2xl text-white sm:text-5xl">
-    Home
-  </button>
+  <button (click)="scroll(home)" class="m-1 rounded-lg p-1.5 text-white">Home</button>
 
-  <button
-    (click)="scroll(gallery)"
-    class="m-1 rounded-lg p-1.5 font-teko text-2xl text-white sm:text-5xl"
-  >
+  <button (click)="scroll(gallery)" class="m-1 rounded-lg p-1.5 font-teko text-white">
     Gallery
   </button>
 
-  <button (click)="scroll(about)" class="m-1 rounded-lg p-1.5 text-2xl text-white sm:text-5xl">
-    About
-  </button>
+  <button (click)="scroll(about)" class="m-1 rounded-lg p-1.5 text-white">About</button>
 
-  <button
-    (click)="scroll(contactUsForm)"
-    class="m-1 rounded-lg p-1.5 text-2xl text-white sm:text-5xl"
-  >
+  <button (click)="scroll(contactUsForm)" class="m-1 rounded-lg p-1.5 text-white">
     Contact us
   </button>
 
