@@ -1,23 +1,15 @@
 <div
   #home
-  class="grid-cols-1 portrait:grid portrait:h-[calc(100svh)] portrait:grid-flow-col portrait:grid-rows-7 portrait:gap-0 portrait:bg-green landscape:grid landscape:h-[calc(100svh)] landscape:landscape:grid-cols-4 landscape:gap-0 landscape:bg-green"
+  class="landscape: grid h-[calc(100svh-4rem)] grid-rows-1 bg-green-600 portrait:grid-cols-1 portrait:grid-rows-9 landscape:grid-cols-2"
   id="home"
 >
-  <div
-    class="z-10 portrait:row-span-2 landscape:col-span-1 landscape:items-end landscape:justify-center"
-  >
-    <img
-      class="portrait:h-full portrait:w-full landscape:h-full"
-      src="/assets/svg/logo.svg"
-      alt="Little Nunna's Pizza"
-    />
+  <div class="row-span-4 flex portrait:items-end landscape:items-center landscape:justify-center">
+    <img class="max-h-full w-full" src="/assets/svg/logo.svg" alt="Little Nunna's Pizza" />
   </div>
 
-  <div
-    class="portrait:row-span-5 landscape:col-span-3 landscape:flex landscape:items-start landscape:justify-center landscape:p-20"
-  >
+  <div class="row-span-4 flex portrait:items-start landscape:items-center landscape:justify-center">
     <img
-      class="animate-fade-right p-3 pb-20 animate-duration-[2000ms] portrait:h-full portrait:w-full landscape:top-0 landscape:h-full"
+      class="max-h-full w-full animate-fade-right p-1 animate-duration-[2000ms]"
       src="/assets/svg/kart.svg"
       alt="Little Nunna's Pizza"
     />
@@ -25,7 +17,7 @@
 </div>
 
 <div
-  class="sticky top-0 z-10 -mt-20 mb-20 flex list-none justify-center bg-green-600 p-0 font-teko text-sm sm:text-3xl"
+  class="sticky top-0 z-10 flex h-16 list-none justify-center bg-green-600 p-0 font-teko text-xl sm:text-4xl"
 >
   <button (click)="scroll(home)" class="m-1 rounded-lg p-1.5 text-white">Home</button>
 

@@ -7,6 +7,11 @@ import { AppSettingsService } from './app-settings.service';
 import { AppSettings } from './appsettings';
 
 export function appSettingsFactory(): () => Observable<void> {
+  // if ssr, return of(void)
+  if (typeof window === 'undefined') {
+    return () => of(void 0);
+  }
+
   const location = inject(Location);
   const appSettingsService = inject(AppSettingsService);
   const fetchBackendClient = inject(FetchBackend);
