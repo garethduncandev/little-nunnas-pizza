@@ -8,7 +8,16 @@
 >
   @if (showContactUsForm()) {
     <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
-    <p class="my-5 text-2xl text-gray">Let us know when, where and roughly how many pizzas 🍕</p>
+    <p class="my-5 text-3xl text-gray">
+      You can contact us on our
+      <a class="text-green underline" href="https://www.facebook.com/littlenunnaspizza">Facebook</a>
+      and
+      <a class="text-green underline" href="https://www.instagram.com/littlenunnaspizza"
+        >Instagram</a
+      >
+      pages or via the form below
+    </p>
+    <p class="my-5 text-2xl text-gray">Let us know when, where and for how many 🍕</p>
 
     <form [formGroup]="contactUsFormGroup" (ngSubmit)="submit()" class="text-2xl">
       <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
