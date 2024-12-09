@@ -15,6 +15,19 @@ stages:
     jobs:
       - job: Build
         steps:
+        
+          - bash: |
+              PR_TITLE="$(curl --silent -u azdo:$SYSTEM_ACCESSTOKEN \
+               $(System.CollectionUri)_apis/git/repositories/$(Build.Repository.ID)/pullRequests/$(System.PullRequest.PullRequestId)?api-version=5.1 \
+               | jq -r .title)"
+              echo "##vso[task.setvariable variable=Pr.Title]$PR_TITLE"
+            env:
+              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+            displayName: Extract pull request title
+
+          - script: echo $(Pr.Title)
+            displayName: PR environment name
+
           # set environment name to git commit id to be used in next script
           - script: echo "##vso[task.setvariable variable=PR_ENVIRONMENT_NAME]${BUILD_SOURCEVERSION::5}"
             displayName: set environment name
@@ -22,22 +35,18 @@ stages:
           # echo environment name
           - script: echo $(PR_ENVIRONMENT_NAME)
             displayName: PR environment name
-            
-            # echo commit message
-          - script: echo $(Build.SourceVersionMessage)
-            displayName: Commit message
-          
+                      
           # will create env if commit message has [env] in it
           - script: echo "Will create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: create environment
             condition: |
-              contains(variables['Build.SourceVersionMessage'], '[env]')
+              contains(variables['Pr.Title'], '[env]')
 
           # if commit message does not have [env] in it, it will say this message
           - script: echo "Will not create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: do not create environment
             condition: |
-              not(contains(variables['Build.SourceVersionMessage'], '[env]'))
+              not(contains(variables['Pr.Title'], '[env]'))
 
           - task: UseDotNet@2
             displayName: "Use .NET Core sdk"
@@ -96,7 +105,7 @@ stages:
               workingDirectory: src/cdk
               inlineScript: cdk deploy --app '$(System.DefaultWorkingDirectory)/src/cdk/cdk.out' nunnaspizza-$(PR_ENVIRONMENT_NAME) --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
             condition: |
-              contains(variables['Build.SourceVersionMessage'], '[env]')
+              contains(variables['Pr.Title'], '[env]')
 
           - publish: $(System.DefaultWorkingDirectory)/src/cdk/cdk.out
             artifact: build
