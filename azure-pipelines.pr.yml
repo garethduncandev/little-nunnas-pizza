@@ -27,13 +27,13 @@ stages:
           - script: echo "Will create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: create environment
             condition: |
-              contains(variables['Build.SourceVersionMessage'], '[env]')
+              eq(variables['create.env'], 'true')
 
           # if commit message does not have [env] in it, it will say this message
           - script: echo "Will not create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: do not create environment
             condition: |
-              not(contains(variables['Build.SourceVersionMessage'], '[env]'))
+              ne(variables['create.env'], 'true')
 
           - task: UseDotNet@2
             displayName: "Use .NET Core sdk"
@@ -92,7 +92,7 @@ stages:
               workingDirectory: src/cdk
               inlineScript: cdk deploy --app '$(System.DefaultWorkingDirectory)/src/cdk/cdk.out' nunnaspizza-$(PR_ENVIRONMENT_NAME) --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
             condition: |
-              contains(variables['Build.SourceVersionMessage'], '[env]')
+              eq(variables['create.env'], 'true')
 
           - publish: $(System.DefaultWorkingDirectory)/src/cdk/cdk.out
             artifact: build
