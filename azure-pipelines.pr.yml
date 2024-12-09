@@ -15,23 +15,6 @@ stages:
     jobs:
       - job: Build
         steps:
-        
-          - powershell: |
-              # Get the commits for the pull request
-              $commitsUrl = "$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.Name)/pullRequests/$(System.PullRequest.PullRequestId)/commits?api-version=7.1"
-              echo $commitsUrl
-              $commitsResponse = Invoke-RestMethod -Uri $commitsUrl -Method Get  -Headers @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"}
-              # Extract and print the commit messages
-              $commitMessages = $commitsResponse.value.comment
-              $commitMessages
-              Write-Host "##vso[task.setvariable variable=Pr.Title]$commitMessages"
-              env:
-                SYSTEM_ACCESSTOKEN: $(system.accesstoken)
-              displayName: 'Get Pull Request Commit Messages'
-
-          - script: echo $(Pr.Title)
-            displayName: PR Title
-
           # set environment name to git commit id to be used in next script
           - script: echo "##vso[task.setvariable variable=PR_ENVIRONMENT_NAME]${BUILD_SOURCEVERSION::5}"
             displayName: set environment name
@@ -39,18 +22,18 @@ stages:
           # echo environment name
           - script: echo $(PR_ENVIRONMENT_NAME)
             displayName: PR environment name
-                      
+
           # will create env if commit message has [env] in it
           - script: echo "Will create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: create environment
             condition: |
-              contains(variables['Pr.Title'], '[env]')
+              contains(variables['Build.SourceVersionMessage'], '[env]')
 
           # if commit message does not have [env] in it, it will say this message
           - script: echo "Will not create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: do not create environment
             condition: |
-              not(contains(variables['Pr.Title'], '[env]'))
+              not(contains(variables['Build.SourceVersionMessage'], '[env]'))
 
           - task: UseDotNet@2
             displayName: "Use .NET Core sdk"
@@ -109,7 +92,7 @@ stages:
               workingDirectory: src/cdk
               inlineScript: cdk deploy --app '$(System.DefaultWorkingDirectory)/src/cdk/cdk.out' nunnaspizza-$(PR_ENVIRONMENT_NAME) --context PR_ENVIRONMENT_NAME=$(PR_ENVIRONMENT_NAME) --require-approval never --force --context cloudfront-certificate-identifier=$(CDK_CLOUD_FRONT_CERTIFICATE_IDENTIFIER) --context hosted-zone-id=$(CDK_HOSTED_ZONE_ID)
             condition: |
-              contains(variables['Pr.Title'], '[env]')
+              contains(variables['Build.SourceVersionMessage'], '[env]')
 
           - publish: $(System.DefaultWorkingDirectory)/src/cdk/cdk.out
             artifact: build
