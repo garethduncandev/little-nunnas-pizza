@@ -17,16 +17,27 @@ stages:
         steps:
         
           - bash: |
-              PR_TITLE="$(curl --silent -u azdo:$SYSTEM_ACCESSTOKEN \
-               $(System.CollectionUri)_apis/git/repositories/$(Build.Repository.ID)/pullRequests/$(System.PullRequest.PullRequestId)?api-version=5.1 \
-               | jq -r .title)"
-              echo "##vso[task.setvariable variable=Pr.Title]$PR_TITLE"
+                echo "Fetching PR title..."
+                echo "System.CollectionUri: $(System.CollectionUri)"
+                echo "Build.Repository.ID: $(Build.Repository.ID)"
+                echo "System.PullRequest.PullRequestId: $(System.PullRequest.PullRequestId)"
+                
+                PR_URL="$(System.CollectionUri)_apis/git/repositories/$(Build.Repository.ID)/pullRequests/$(System.PullRequest.PullRequestId)?api-version=5.1"
+                echo "PR URL: $PR_URL"
+                
+                PR_RESPONSE=$(curl --silent -u :$(SYSTEM_ACCESSTOKEN) "$PR_URL")
+                echo "PR Response: $PR_RESPONSE"
+                
+                PR_TITLE=$(echo $PR_RESPONSE | jq -r .title)
+                echo "PR_TITLE: $PR_TITLE"
+                
+                echo "##vso[task.setvariable variable=Pr.Title]$PR_TITLE"
             env:
-              SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+                SYSTEM_ACCESSTOKEN: $(System.AccessToken)
             displayName: Extract pull request title
 
           - script: echo $(Pr.Title)
-            displayName: PR environment name
+            displayName: PR Title
 
           # set environment name to git commit id to be used in next script
           - script: echo "##vso[task.setvariable variable=PR_ENVIRONMENT_NAME]${BUILD_SOURCEVERSION::5}"
