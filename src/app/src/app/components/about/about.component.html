@@ -1,7 +1,7 @@
 <p
-  [class.animate-stop]="!isInViewport"
+  [class.animate-stop]="!isInViewport()"
   [inViewportOptions]="{ threshold: [0.5] }"
-  (inViewportAction)="isInViewport = $event.visible"
+  (inViewportAction)="isInViewport.set($event.visible)"
   class="mt-16 animate-fade-up text-center font-teko text-4xl text-gray animate-duration-[1000ms] md:text-6xl"
   inViewport
 >

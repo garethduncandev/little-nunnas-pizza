@@ -10,7 +10,6 @@ import { HygieneRatingComponent } from '../../components/hygiene-rating/hygiene-
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [
     InViewportModule,
     ContactComponent,

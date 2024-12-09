@@ -5,7 +5,6 @@ import { PizzaBorderComponent } from '../pizza-border/pizza-border.component';
 
 @Component({
   selector: 'app-gallery',
-  standalone: true,
   imports: [InViewportModule, CommonModule, PizzaBorderComponent, NgOptimizedImage],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',

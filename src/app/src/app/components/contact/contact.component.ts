@@ -9,7 +9,6 @@ import { catchError } from 'rxjs';
 
 @Component({
   selector: 'app-contact',
-  standalone: true,
   imports: [InViewportModule, ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
