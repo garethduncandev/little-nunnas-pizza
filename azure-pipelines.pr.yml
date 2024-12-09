@@ -16,25 +16,18 @@ stages:
       - job: Build
         steps:
         
-          - bash: |
-                echo "Fetching PR title..."
-                echo "System.CollectionUri: $(System.CollectionUri)"
-                echo "Build.Repository.ID: $(Build.Repository.ID)"
-                echo "System.PullRequest.PullRequestId: $(System.PullRequest.PullRequestId)"
-                
-                PR_URL="$(System.CollectionUri)_apis/git/repositories/$(Build.Repository.ID)/pullRequests/$(System.PullRequest.PullRequestId)?api-version=5.1"
-                echo "PR URL: $PR_URL"
-                
-                PR_RESPONSE=$(curl --silent -u :$(SYSTEM_ACCESSTOKEN) "$PR_URL")
-                echo "PR Response: $PR_RESPONSE"
-                
-                PR_TITLE=$(echo $PR_RESPONSE | jq -r .title)
-                echo "PR_TITLE: $PR_TITLE"
-                
-                echo "##vso[task.setvariable variable=Pr.Title]$PR_TITLE"
-            env:
-                SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-            displayName: Extract pull request title
+          - powershell: |
+              # Get the commits for the pull request
+              $commitsUrl = "$(System.CollectionUri)$(System.TeamProject)/_apis/git/repositories/$(Build.Repository.Name)/pullRequests/$(System.PullRequest.PullRequestId)/commits?api-version=7.1"
+              echo $commitsUrl
+              $commitsResponse = Invoke-RestMethod -Uri $commitsUrl -Method Get  -Headers @{Authorization = "Bearer $env:SYSTEM_ACCESSTOKEN"}
+              # Extract and print the commit messages
+              $commitMessages = $commitsResponse.value.comment
+              $commitMessages
+              Write-Host "##vso[task.setvariable variable=Pr.Title]$commitMessages"
+              env:
+                SYSTEM_ACCESSTOKEN: $(system.accesstoken)
+              displayName: 'Get Pull Request Commit Messages'
 
           - script: echo $(Pr.Title)
             displayName: PR Title
