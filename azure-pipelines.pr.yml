@@ -22,7 +22,11 @@ stages:
           # echo environment name
           - script: echo $(PR_ENVIRONMENT_NAME)
             displayName: PR environment name
-
+            
+            # echo commit message
+          - script: echo $(Build.SourceVersionMessage)
+            displayName: Commit message
+          
           # will create env if commit message has [env] in it
           - script: echo "Will create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: create environment
