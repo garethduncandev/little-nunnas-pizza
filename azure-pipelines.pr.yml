@@ -23,6 +23,10 @@ stages:
           - script: echo $(PR_ENVIRONMENT_NAME)
             displayName: PR environment name
 
+          # echo environment name
+          - script: echo "create environment = $(create.env)"
+            displayName: Create environment variable value
+
           # will create env if commit message has [env] in it
           - script: echo "Will create environment for $(PR_ENVIRONMENT_NAME)"
             displayName: create environment
