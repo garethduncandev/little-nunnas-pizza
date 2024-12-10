@@ -3,7 +3,6 @@ import { Component, Input, OnInit, signal } from '@angular/core';
 
 @Component({
   selector: 'app-pizza-border',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './pizza-border.component.html',
   styleUrl: './pizza-border.component.scss',

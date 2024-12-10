@@ -4,7 +4,6 @@ import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-diagnostics',
-  standalone: true,
   imports: [CommonModule],
   templateUrl: './diagnostics.component.html',
   styleUrl: './diagnostics.component.scss',
