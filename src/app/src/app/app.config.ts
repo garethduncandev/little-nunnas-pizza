@@ -1,4 +1,4 @@
-import { APP_INITIALIZER, ApplicationConfig } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, CSP_NONCE } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { Location, LocationStrategy } from '@angular/common';
@@ -8,6 +8,7 @@ import { routes } from './app.routes';
 import { appSettingsFactory } from './appsettings/app-settings.factory';
 import { AppSettingsService } from './appsettings/app-settings.service';
 import { API_BASE_URL } from './web-api-client';
+import { NonceService } from './appsettings/nonce.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -16,7 +17,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: APP_INITIALIZER,
       useFactory: appSettingsFactory,
-      deps: [Location, LocationStrategy, AppSettingsService],
+      deps: [Location, LocationStrategy, AppSettingsService, NonceService],
       multi: true,
     },
     {
@@ -24,6 +25,11 @@ export const appConfig: ApplicationConfig = {
       useFactory: (appSettingsService: AppSettingsService) =>
         appSettingsService.appSettings()?.apiUrl,
       deps: [AppSettingsService],
+    },
+    {
+      provide: CSP_NONCE,
+      useFactory: (nonceService: NonceService) => nonceService.getNonce(),
+      deps: [NonceService],
     },
 
     provideClientHydration(),

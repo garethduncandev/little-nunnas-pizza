@@ -5,6 +5,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, tap } from 'rxjs/operators';
 import { AppSettingsService } from './app-settings.service';
 import { AppSettings } from './appsettings';
+import { NonceService } from './nonce.service';
 
 export function appSettingsFactory(): () => Observable<void> {
   // if ssr, return of(void)
@@ -15,12 +16,14 @@ export function appSettingsFactory(): () => Observable<void> {
   const location = inject(Location);
   const appSettingsService = inject(AppSettingsService);
   const fetchBackendClient = inject(FetchBackend);
+  const nonceService = inject(NonceService);
   const httpClient = new HttpClient(fetchBackendClient);
 
   const buildNumber = '$(build.buildnumber)';
 
   const appSettingsPath = `assets/appsettings.json?v=${buildNumber}`;
   const fullAppSettingsPath = location.prepareExternalUrl(appSettingsPath);
+  nonceService.setCspNonce();
 
   const request = (): Observable<void> =>
     httpClient

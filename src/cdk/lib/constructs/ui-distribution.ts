@@ -48,6 +48,31 @@ export class UiDistribution extends Construct {
   }
   `;
 
+  private readonly cspCloudFrontFUnction = `
+    function handler(event) {
+      var request = event.request;
+      var response = event.response;
+      var headers = response.headers;
+
+      // Generate a random nonce
+      var nonce = crypto.getRandomValues(new Uint8Array(16)).reduce((p, c) => p + ('00' + c.toString(16)).slice(-2), '');
+
+      // Add the CSP header with the nonce
+      headers['content-security-policy'] = {
+          value: "default-src 'self'; script-src 'self' 'nonce-" + nonce + "'; style-src 'self' 'nonce-" + nonce + "'; object-src 'none';"
+      };
+
+      // Inject the nonce into the HTML response
+      if (request.uri.endsWith('index.html')) {
+          var body = response.body.toString();
+          body = body.replace('<meta name="csp-nonce" content="12345">', '<meta name="csp-nonce" content="' + nonce + '">');
+          response.body = body;
+      }
+
+      return response;
+    }
+  `;
+
   public constructor(scope: Construct, id: string, props: UiDistributionProps) {
     super(scope, id);
 
@@ -71,9 +96,19 @@ export class UiDistribution extends Construct {
       `cf-viewer-request-function`,
       {
         code: FunctionCode.fromInline(this.cloudFrontFunction),
+        comment: 'Add csp header and nonce to index.html',
+        functionName: `${id}-cf-viewer-request`,
+      }
+    );
+
+    const cspHtmlCloudfrontFunction = new Function(
+      this,
+      `cf-viewer-response-function`,
+      {
+        code: FunctionCode.fromInline(this.cspCloudFrontFUnction),
         comment:
           'Add index.html to the end of the request uri if no extension exists',
-        functionName: `${id}-cf-viewer-request`,
+        functionName: `${id}-cf-viewer-response`,
       }
     );
 
@@ -87,6 +122,10 @@ export class UiDistribution extends Construct {
           {
             function: indexHtmlCloudfrontFunction,
             eventType: FunctionEventType.VIEWER_REQUEST,
+          },
+          {
+            function: cspHtmlCloudfrontFunction,
+            eventType: FunctionEventType.VIEWER_RESPONSE,
           },
         ],
         viewerProtocolPolicy: ViewerProtocolPolicy.REDIRECT_TO_HTTPS,
