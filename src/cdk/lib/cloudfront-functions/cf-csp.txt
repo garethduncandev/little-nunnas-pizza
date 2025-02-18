@@ -4,9 +4,13 @@ function handler(event) {
   var headers = response.headers;
 
   // Generate a random nonce
-  var nonce = crypto
-    .getRandomValues(new Uint8Array(16))
-    .reduce((p, c) => p + ('00' + c.toString(16)).slice(-2), '');
+  var array = new Uint8Array(16);
+  for (var i = 0; i < array.length; i++) {
+    array[i] = Math.floor(Math.random() * 256);
+  }
+  var nonce = Array.from(array, (byte) =>
+    ('0' + byte.toString(16)).slice(-2)
+  ).join('');
 
   // Add the CSP header with the nonce
   headers['content-security-policy'] = {
