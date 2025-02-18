@@ -58,11 +58,11 @@ export class UiDistribution extends Construct {
           filePath: path.join(
             __dirname,
             '../cloudfront-functions',
-            'cf-index-redirect.js'
+            'cf-index-redirect.txt'
           ),
         }),
         comment: 'Add csp header and nonce to index.html',
-        functionName: `${id}-cf-viewer-request`,
+        functionName: `${id}-cf-index-viewer-request-function`,
       }
     );
 
@@ -74,13 +74,13 @@ export class UiDistribution extends Construct {
           filePath: path.join(
             __dirname,
             '../cloudfront-functions',
-            'cf-csp.js'
+            'cf-csp.txt'
           ),
         }),
         //code: FunctionCode.fromInline(this.cspCloudFrontFUnction),
         comment:
           'Add index.html to the end of the request uri if no extension exists',
-        functionName: `${id}-cf-viewer-response`,
+        functionName: `${id}-cf-csp-viewer-response-function`,
       }
     );
 

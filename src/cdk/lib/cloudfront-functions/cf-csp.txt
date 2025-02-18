@@ -1,0 +1,32 @@
+function handler(event) {
+  var request = event.request;
+  var response = event.response;
+  var headers = response.headers;
+
+  // Generate a random nonce
+  var nonce = crypto
+    .getRandomValues(new Uint8Array(16))
+    .reduce((p, c) => p + ('00' + c.toString(16)).slice(-2), '');
+
+  // Add the CSP header with the nonce
+  headers['content-security-policy'] = {
+    value:
+      "default-src 'self'; script-src 'self' 'nonce-" +
+      nonce +
+      "'; style-src 'self' 'nonce-" +
+      nonce +
+      "'; object-src 'none';",
+  };
+
+  // Inject the nonce into the HTML response
+  if (request.uri.endsWith('index.html')) {
+    var body = response.body.toString();
+    body = body.replace(
+      '<meta name="csp-nonce" content="12345">',
+      '<meta name="csp-nonce" content="' + nonce + '">'
+    );
+    response.body = body;
+  }
+
+  return response;
+}
