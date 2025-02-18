@@ -15,6 +15,7 @@ import { CloudFrontTarget } from 'aws-cdk-lib/aws-route53-targets';
 import { IBucket } from 'aws-cdk-lib/aws-s3';
 import { Construct } from 'constructs/lib/construct';
 import { CloudFrontResponseHeadersPolicy } from './cloudfront-response-headers-policy';
+import path = require('path');
 
 export class UiDistributionProps {
   public constructor(
@@ -29,49 +30,6 @@ export class UiDistributionProps {
 
 export class UiDistribution extends Construct {
   public readonly distribution: Distribution;
-
-  private readonly cloudFrontFunction = `
-  function handler(event) {
-    var request = event.request;
-    var uri = request.uri;
-
-    // Check whether the URI is missing a file name.
-    if (uri.endsWith('/')) {
-        request.uri += 'index.html';
-    }
-    // Check whether the URI is missing a file extension.
-    else if (!uri.includes('.')) {
-        request.uri += '/index.html';
-    }
-
-    return request;
-  }
-  `;
-
-  private readonly cspCloudFrontFUnction = `
-    function handler(event) {
-      var request = event.request;
-      var response = event.response;
-      var headers = response.headers;
-
-      // Generate a random nonce
-      var nonce = crypto.getRandomValues(new Uint8Array(16)).reduce((p, c) => p + ('00' + c.toString(16)).slice(-2), '');
-
-      // Add the CSP header with the nonce
-      headers['content-security-policy'] = {
-          value: "default-src 'self'; script-src 'self' 'nonce-" + nonce + "'; style-src 'self' 'nonce-" + nonce + "'; object-src 'none';"
-      };
-
-      // Inject the nonce into the HTML response
-      if (request.uri.endsWith('index.html')) {
-          var body = response.body.toString();
-          body = body.replace('<meta name="csp-nonce" content="12345">', '<meta name="csp-nonce" content="' + nonce + '">');
-          response.body = body;
-      }
-
-      return response;
-    }
-  `;
 
   public constructor(scope: Construct, id: string, props: UiDistributionProps) {
     super(scope, id);
@@ -93,9 +51,16 @@ export class UiDistribution extends Construct {
 
     const indexHtmlCloudfrontFunction = new Function(
       this,
-      `cf-viewer-request-function`,
+      `cf-index-viewer-request-function`,
       {
-        code: FunctionCode.fromInline(this.cloudFrontFunction),
+        //code: FunctionCode.fromInline(this.cloudFrontFunction),
+        code: FunctionCode.fromFile({
+          filePath: path.join(
+            __dirname,
+            '../cloudfront-functions',
+            'cf-index-redirect.js'
+          ),
+        }),
         comment: 'Add csp header and nonce to index.html',
         functionName: `${id}-cf-viewer-request`,
       }
@@ -103,9 +68,16 @@ export class UiDistribution extends Construct {
 
     const cspHtmlCloudfrontFunction = new Function(
       this,
-      `cf-viewer-response-function`,
+      `cf-csp-viewer-response-function`,
       {
-        code: FunctionCode.fromInline(this.cspCloudFrontFUnction),
+        code: FunctionCode.fromFile({
+          filePath: path.join(
+            __dirname,
+            '../cloudfront-functions',
+            'cf-csp.js'
+          ),
+        }),
+        //code: FunctionCode.fromInline(this.cspCloudFrontFUnction),
         comment:
           'Add index.html to the end of the request uri if no extension exists',
         functionName: `${id}-cf-viewer-response`,
