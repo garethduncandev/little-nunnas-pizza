@@ -17,7 +17,8 @@ import { HttpApi } from 'aws-cdk-lib/aws-apigatewayv2';
 export class UiDistributionHttpApiOriginProps {
   public constructor(
     public readonly distribution: Distribution,
-    public readonly httpApi: HttpApi
+    public readonly httpApi: HttpApi,
+    public readonly domainName: string
   ) {}
 }
 
@@ -34,6 +35,7 @@ export class UiDistributionHttpApiOrigin extends Construct {
       `response-headers-policy-http-api`,
       {
         noIndex: true,
+        domainName: props.domainName,
       }
     );
 

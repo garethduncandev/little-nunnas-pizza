@@ -95,6 +95,9 @@ export class ApplicationStack extends cdk.Stack {
       {
         distribution: distribution.distribution,
         httpApi: httpApi.httpApi,
+        domainName: props.subDomain
+          ? `${props.subDomain}.${props.domain}`
+          : props.domain,
       }
     );
 
