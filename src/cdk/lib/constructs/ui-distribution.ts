@@ -63,6 +63,7 @@ export class UiDistribution extends Construct {
         `response-headers-policy-cloud-front-ui`,
         {
           noIndex: props.noIndex,
+          domainName: props.domainName,
         }
       );
 
