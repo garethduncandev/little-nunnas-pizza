@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { PizzaBorderComponent } from '../pizza-border/pizza-border.component';
+import { FacebookProfileUrl, InstagramProfileUrl } from '../../consts';
 
 @Component({
   selector: 'app-social',
   standalone: true,
-  imports: [PizzaBorderComponent],
+  imports: [],
   templateUrl: './social.component.html',
   styleUrl: './social.component.scss',
 })
-export class SocialComponent {}
+export class SocialComponent {
+  public facebookProfileUrl = FacebookProfileUrl;
+  public instagramProfileUrl = InstagramProfileUrl;
+}

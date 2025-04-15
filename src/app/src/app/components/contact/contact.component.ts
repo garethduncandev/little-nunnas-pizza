@@ -6,6 +6,7 @@ import { InViewportModule } from 'ng-in-viewport';
 import { ContactUsClient, ContactUsFormModel } from '../../web-api-client';
 import { ContactUsForm } from './contact-us-form-group';
 import { catchError } from 'rxjs';
+import { FacebookProfileUrl, InstagramProfileUrl } from '../../consts';
 
 @Component({
   selector: 'app-contact',
@@ -15,6 +16,9 @@ import { catchError } from 'rxjs';
   styleUrl: './contact.component.scss',
 })
 export class ContactComponent {
+  public facebookProfileUrl = FacebookProfileUrl;
+  public instagramProfileUrl = InstagramProfileUrl;
+
   public contactUsFormGroup!: FormGroup<ContactUsForm>;
 
   public isInViewport = signal<boolean>(false);
