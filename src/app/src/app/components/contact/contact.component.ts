@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/unbound-method */
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, signal, inject } from '@angular/core';
 
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InViewportModule } from 'ng-in-viewport';
@@ -28,10 +28,10 @@ export class ContactComponent {
     () => !this.submitError() && !this.submitted() && !this.submitting()
   );
 
-  public constructor(
-    private formBuilder: NonNullableFormBuilder,
-    private contactUsClient: ContactUsClient
-  ) {
+  private formBuilder = inject(NonNullableFormBuilder);
+  private contactUsClient = inject(ContactUsClient);
+
+  public constructor() {
     this.contactUsFormGroup = this.createFormGroup();
   }
 

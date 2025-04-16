@@ -1,18 +1,18 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Input, OnInit, signal } from '@angular/core';
+import { Component, OnInit, signal, input, inject } from '@angular/core';
 import { HygieneRating } from './hygiene-rating';
 
 @Component({
-    selector: 'app-hygiene-rating',
-    imports: [],
-    templateUrl: './hygiene-rating.component.html',
-    styleUrl: './hygiene-rating.component.scss'
+  selector: 'app-hygiene-rating',
+  imports: [],
+  templateUrl: './hygiene-rating.component.html',
+  styleUrl: './hygiene-rating.component.scss',
 })
 export class HygieneRatingComponent implements OnInit {
-  @Input() public businessId!: string;
+  public readonly businessId = input.required<string>();
   public rating = signal<number | undefined>(5);
 
-  public constructor(private httpClient: HttpClient) {}
+  private httpClient = inject(HttpClient);
 
   public ngOnInit(): void {
     this.fetchFoodHygieneRating();
@@ -21,7 +21,7 @@ export class HygieneRatingComponent implements OnInit {
   public fetchFoodHygieneRating(): void {
     this.httpClient
       .get<HygieneRating>(
-        `https://ratings.food.gov.uk/api/download-data/json/establishments/${this.businessId}`
+        `https://ratings.food.gov.uk/api/download-data/json/establishments/${this.businessId()}`
       )
       .subscribe((response) => {
         this.rating.set(response.EstablishmentCollection.EstablishmentDetail.scores.Hygiene);
