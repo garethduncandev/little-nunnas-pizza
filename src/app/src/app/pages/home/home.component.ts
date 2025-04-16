@@ -1,25 +1,20 @@
 import { Component } from '@angular/core';
 import { InViewportModule } from 'ng-in-viewport';
-import { ContactComponent } from '../../components/contact/contact.component';
 import { AboutComponent } from '../../components/about/about.component';
-import { GalleryComponent } from '../../components/gallery/gallery.component';
+import { ContactComponent } from '../../components/contact/contact.component';
 import { FooterComponent } from '../../components/footer/footer.component';
-import { NavComponent } from '../../components/nav/nav.component';
+import { GalleryComponent } from '../../components/gallery/gallery.component';
 import { SocialComponent } from '../../components/social/social.component';
-import { HygieneRatingComponent } from '../../components/hygiene-rating/hygiene-rating.component';
 
 @Component({
   selector: 'app-home',
-  standalone: true,
   imports: [
     InViewportModule,
     ContactComponent,
     AboutComponent,
     GalleryComponent,
     FooterComponent,
-    NavComponent,
     SocialComponent,
-    HygieneRatingComponent,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',

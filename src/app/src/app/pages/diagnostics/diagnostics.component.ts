@@ -3,11 +3,10 @@ import { DiagnosticsClient } from '../../web-api-client';
 import { CommonModule } from '@angular/common';
 
 @Component({
-  selector: 'app-diagnostics',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './diagnostics.component.html',
-  styleUrl: './diagnostics.component.scss',
+    selector: 'app-diagnostics',
+    imports: [CommonModule],
+    templateUrl: './diagnostics.component.html',
+    styleUrl: './diagnostics.component.scss'
 })
 export class DiagnosticsComponent implements OnInit {
   public diagnostics = signal<Date | undefined>(undefined);

@@ -1,12 +1,11 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { InViewportModule } from 'ng-in-viewport';
 import { PizzaBorderComponent } from '../pizza-border/pizza-border.component';
 
 @Component({
   selector: 'app-gallery',
-  standalone: true,
-  imports: [InViewportModule, CommonModule, PizzaBorderComponent, NgOptimizedImage],
+  imports: [InViewportModule, CommonModule, PizzaBorderComponent],
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
 })

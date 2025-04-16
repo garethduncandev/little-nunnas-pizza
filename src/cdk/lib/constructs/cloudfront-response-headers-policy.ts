@@ -14,7 +14,7 @@ export class CloudFrontResponseHeadersPolicy extends Construct {
     'noindex, nofollow, noarchive, nositelinkssearchbox, nosnippet, noimageindex, notranslate, max-image-preview:0, max-video-preview:0';
 
   private readonly contentSecurityPolicyValue =
-    "default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; base-uri 'self';";
+    "default-src 'none'; img-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; base-uri 'self';";
 
   public constructor(scope: Construct, id: string, props: UiBucketProps) {
     super(scope, id);

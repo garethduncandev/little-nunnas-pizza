@@ -3,11 +3,10 @@ import { Component, Input, OnInit, signal } from '@angular/core';
 import { HygieneRating } from './hygiene-rating';
 
 @Component({
-  selector: 'app-hygiene-rating',
-  standalone: true,
-  imports: [],
-  templateUrl: './hygiene-rating.component.html',
-  styleUrl: './hygiene-rating.component.scss',
+    selector: 'app-hygiene-rating',
+    imports: [],
+    templateUrl: './hygiene-rating.component.html',
+    styleUrl: './hygiene-rating.component.scss'
 })
 export class HygieneRatingComponent implements OnInit {
   @Input() public businessId!: string;

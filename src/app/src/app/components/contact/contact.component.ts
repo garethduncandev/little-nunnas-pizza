@@ -3,14 +3,13 @@ import { Component, computed, signal } from '@angular/core';
 
 import { FormGroup, NonNullableFormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { InViewportModule } from 'ng-in-viewport';
-import { ContactUsClient, ContactUsFormModel } from '../../web-api-client';
-import { ContactUsForm } from './contact-us-form-group';
 import { catchError } from 'rxjs';
 import { FacebookProfileUrl, InstagramProfileUrl } from '../../consts';
+import { ContactUsClient, ContactUsFormModel } from '../../web-api-client';
+import { ContactUsForm } from './contact-us-form-group';
 
 @Component({
   selector: 'app-contact',
-  standalone: true,
   imports: [InViewportModule, ReactiveFormsModule],
   templateUrl: './contact.component.html',
   styleUrl: './contact.component.scss',
