@@ -3,26 +3,26 @@
   [class.animate-stop]="!isInViewport()"
   [inViewportOptions]="{ threshold: [0.5] }"
   (inViewportAction)="isInViewport.set($event.visible)"
-  class="mt-7 max-w-screen-lg animate-fade p-5 font-teko animate-duration-[1000ms]"
+  class="animate-fade font-teko animate-duration-[1000ms] mt-7 max-w-(--breakpoint-lg) p-5"
   inViewport
 >
   @if (showContactUsForm()) {
-    <h1 class="text-3xl text-gray md:text-5xl" id="contactus">Give us a shout</h1>
-    <p class="my-5 text-3xl text-gray">
+    <h1 class="text-gray text-3xl md:text-5xl" id="contactus">Give us a shout</h1>
+    <p class="text-gray my-5 text-3xl">
       You can contact us on our
       <a [href]="facebookProfileUrl" class="text-green underline">Facebook</a>
       and
       <a [href]="instagramProfileUrl" class="text-green underline">Instagram</a>
       pages or via the form below
     </p>
-    <p class="my-5 text-2xl text-gray">Let us know when, where and for how many 🍕</p>
+    <p class="text-gray my-5 text-2xl">Let us know when, where and for how many 🍕</p>
 
     <form [formGroup]="contactUsFormGroup" (ngSubmit)="submit()" class="text-2xl">
       <div class="grid grid-cols-1 gap-2 md:grid-cols-2">
         <div class="my-2">
           <label class="text-gray" for="name">Name<span class="text-red">*</span></label>
           <input
-            class="w-full rounded-md px-5 py-2 focus:border-green"
+            class="focus:border-green w-full rounded-md bg-white px-5 py-2"
             id="name"
             name="name"
             type="text"
@@ -38,7 +38,7 @@
         <div class="my-2">
           <label class="text-gray" for="email">Email<span class="text-red">*</span></label>
           <input
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            class="focus:border-green w-full rounded-md bg-white px-5 py-2 focus:ring-0"
             id="email"
             name="email"
             type="email"
@@ -54,7 +54,7 @@
         <div class="my-2">
           <label class="text-gray" for="email">Phone</label>
           <input
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            class="focus:border-green w-full rounded-md bg-white px-5 py-2 focus:ring-0"
             id="phone"
             name="phone"
             type="text"
@@ -65,7 +65,7 @@
         <div class="my-2">
           <label class="text-gray" for="date">Date<span class="text-red">*</span></label>
           <input
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            class="focus:border-green w-full rounded-md bg-white px-5 py-2 focus:ring-0"
             id="date"
             type="date"
             formControlName="date"
@@ -86,7 +86,7 @@
             >Roughly how many to cook for 🍕<span class="text-red">*</span></label
           >
           <input
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            class="focus:border-green w-full rounded-md bg-white px-5 py-2 focus:ring-0"
             id="number-of-pizzas"
             type="number"
             formControlName="partySize"
@@ -102,7 +102,7 @@
         <div class="my-2 md:col-span-2">
           <label class="text-gray" for="message">Message<span class="text-red">*</span></label>
           <textarea
-            class="w-full rounded-md px-5 py-2 focus:border-green focus:ring-0"
+            class="focus:border-green w-full rounded-md bg-white px-5 py-2 focus:ring-0"
             id="message"
             name="message"
             formControlName="message"
@@ -119,7 +119,7 @@
 
         <button
           [disabled]="submitting()"
-          class="rounded-md border-r-4 border-none bg-green p-5 text-gray md:col-span-2"
+          class="bg-green text-gray rounded-md border-r-4 border-none p-5 md:col-span-2"
           type="submit"
         >
           Submit
