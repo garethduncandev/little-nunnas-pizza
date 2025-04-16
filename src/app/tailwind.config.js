@@ -95,5 +95,5 @@ module.exports = {
       }
     },
   },
-  plugins: [require('tailwindcss-textshadow'), require("tailwindcss-animated")],
+  // plugins: [require('tailwindcss-textshadow'), require("tailwindcss-animated")],
 };
