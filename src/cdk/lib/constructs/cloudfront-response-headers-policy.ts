@@ -13,7 +13,7 @@ export class CloudFrontResponseHeadersPolicy extends Construct {
   private readonly noIndexHeaderValue =
     'noindex, nofollow, noarchive, nositelinkssearchbox, nosnippet, noimageindex, notranslate, max-image-preview:0, max-video-preview:0';
 
-  private readonly contentSecurityPolicyValue = "style-src 'self';";
+  //private readonly contentSecurityPolicyValue = "style-src 'self';";
 
   public constructor(scope: Construct, id: string, props: UiBucketProps) {
     super(scope, id);
@@ -27,10 +27,10 @@ export class CloudFrontResponseHeadersPolicy extends Construct {
         originOverride: true,
       },
       securityHeadersBehavior: {
-        contentSecurityPolicy: {
-          contentSecurityPolicy: this.contentSecurityPolicyValue,
-          override: true,
-        },
+        // contentSecurityPolicy: {
+        //   contentSecurityPolicy: this.contentSecurityPolicyValue,
+        //   override: true,
+        // },
         strictTransportSecurity: {
           override: true,
           accessControlMaxAge: Duration.seconds(300),
