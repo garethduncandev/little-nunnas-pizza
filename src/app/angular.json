@@ -27,21 +27,16 @@
             "styles": ["src/styles.css"],
             "scripts": [],
             "server": "src/main.server.ts",
-            "prerender": false,
-            "ssr": false,
+            "prerender": true,
+            "ssr": {
+              "entry": "server.ts"
+            },
             "security": {
-              "autoCsp": true
+              "autoCsp": false
             }
           },
           "configurations": {
             "production": {
-              "optimization": {
-                "styles": {
-                  "removeSpecialComments": true,
-                  "inlineCritical": false,
-                  "minify": true
-                }
-              },
               "budgets": [
                 {
                   "type": "initial",
